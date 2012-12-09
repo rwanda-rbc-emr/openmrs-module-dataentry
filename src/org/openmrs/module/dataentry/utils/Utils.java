@@ -22,6 +22,8 @@ import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.dataentry.Constants;
+import org.openmrs.util.DatabaseUpdater.OpenMRSChangeSet;
+import org.openmrs.util.OpenmrsUtil;
 
 /**
  *
