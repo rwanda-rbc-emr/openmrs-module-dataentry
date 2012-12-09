@@ -46,8 +46,8 @@ public class AdultEnrollmentFormController extends
 		ParameterizableViewController {
 
 	private Log log = LogFactory.getLog(this.getClass());
-
-	@SuppressWarnings("unchecked")
+	
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
