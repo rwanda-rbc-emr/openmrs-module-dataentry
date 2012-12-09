@@ -134,9 +134,13 @@
 	<tbody>
 		<c:forEach items="${drugOrders}" var="do" varStatus="num">
 			<tr>
-				<td><input type="hidden" id="instructions_${do.orderId}"
-					value="${do.instructions}" /> <span id="drugId_${do.orderId}">${do.drug.drugId}</span></td>
-				<td><span id="name_${do.orderId}">${do.drug.name}</span></td>
+				<td>
+					<input type="hidden" id="instructions_${do.orderId}" value="${do.instructions}" /> 
+					<span id="drugId_${do.orderId}">
+						${not empty do.drug.drugId ? do.drug.drugId : '<img id="stop_${do.orderId}" class="stop" src="images/alert.gif"	style="cursor: pointer;" title="Needs to be updated" />'}
+					</span>
+				</td>
+				<td><span id="name_${do.orderId}">${not empty do.drug ? do.drug.name : do.concept.name.name}</span></td>
 				<td><span id="dose_${do.orderId}">${do.dose}</span></td>
 				<td><span id="units_${do.orderId}">${do.units}</span></td>
 				<td><span id="frequency_${do.orderId}">${do.frequency}</span></td>
