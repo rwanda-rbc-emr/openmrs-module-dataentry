@@ -42,8 +42,8 @@ import org.springframework.web.servlet.mvc.ParameterizableViewController;
 public class AdultFollowupFormController extends ParameterizableViewController {
 
 	private Log log = LogFactory.getLog(this.getClass());
-
-	@SuppressWarnings( { "unchecked" })
+	
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -209,12 +209,12 @@ public class AdultFollowupFormController extends ParameterizableViewController {
 
 		List<Location> locations = Context.getLocationService()
 				.getAllLocations();
-		double personPhoneNrObs = 0;
+		String personPhoneNrObs = null;
 		String contactPhoneNrObs = "";
 		if (obsPersonPhoneNrList.size() > 0)
 			personPhoneNrObs = obsService.getObs(
 					Utils.biggestObsIdNubmer(obsPersonPhoneNrList))
-					.getValueNumeric();
+					.getValueText();
 		try {
 			if (obsContactPhoneNrList.size() > 0)
 				contactPhoneNrObs = obsService.getObs(

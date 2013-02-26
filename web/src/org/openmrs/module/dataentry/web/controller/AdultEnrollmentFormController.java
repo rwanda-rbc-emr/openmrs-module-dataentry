@@ -564,7 +564,7 @@ public class AdultEnrollmentFormController extends
 				obss.add(noteObs);
 			}
 
-			Concept nextVisitConc = conceptService.getConcept(5096);
+			Concept nextVisitConc = conceptService.getConcept(Constants.NEXT_VISIT_DATE);
 			if (request.getParameter("nextVisitDate_5096") != null
 					&& !request.getParameter("nextVisitDate_5096").equals("")) {
 				Date nextVisitDate = sdf.parse(request

@@ -47,7 +47,7 @@ public class PediatricFollowupFormController extends
 
 	private Log log = LogFactory.getLog(this.getClass());
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -194,11 +194,11 @@ public class PediatricFollowupFormController extends
 		List<Location> locations = locService.getAllLocations();
 		Relationship relationship = deService.getRelationshipByPatient(patient);
 		
-		double personPhoneNrObs = 0;
+		String personPhoneNrObs = null;
 		if (obsPersonPhoneNrList.size() > 0)
 			personPhoneNrObs = obsService.getObs(
 					Utils.biggestObsIdNubmer(obsPersonPhoneNrList))
-					.getValueNumeric();
+					.getValueText();
 		String contactPhoneNrObs = "";
 		try {
 			if (obsContactPhoneNrList.size() > 0) {
