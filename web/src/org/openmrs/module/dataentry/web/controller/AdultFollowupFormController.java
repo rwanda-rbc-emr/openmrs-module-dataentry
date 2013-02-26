@@ -510,10 +510,10 @@ public class AdultFollowupFormController extends ParameterizableViewController {
 
 			Concept nextVisitConc = conceptService
 					.getConcept(Constants.NEXT_VISIT_DATE);
-			if (request.getParameter("nextVisitDate_8130") != null
-					&& !request.getParameter("nextVisitDate_8130").equals("")) {
+			if (request.getParameter("nextVisitDate_5096") != null
+					&& !request.getParameter("nextVisitDate_5096").equals("")) {
 				Date nextVisitDate = sdf.parse(request
-						.getParameter("nextVisitDate_8130"));
+						.getParameter("nextVisitDate_5096"));
 				Obs nextVisitObs = Utils.createObservation(encDate,
 						encLocation, patient, nextVisitConc, nextVisitDate, 2);
 				obss.add(nextVisitObs);
