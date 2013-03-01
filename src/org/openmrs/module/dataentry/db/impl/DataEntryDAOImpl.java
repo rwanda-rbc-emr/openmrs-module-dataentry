@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.openmrs.Patient;
 import org.openmrs.Relationship;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.dataentry.db.DataEntryDAO;
 
 public class DataEntryDAOImpl implements DataEntryDAO {
@@ -43,6 +44,8 @@ public class DataEntryDAOImpl implements DataEntryDAO {
 						Relationship.class).list();
 		if (relationships.size() > 0)
 			relationship = relationships.get(0);
+		
+//		Relationship r = Context.getPersonService().getRelationships(null, patient, RelationshipType rt);
 		
 		return relationship;
 	}
