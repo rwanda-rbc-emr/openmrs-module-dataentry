@@ -40,12 +40,11 @@ function createFamilyHIVSerologies(baseName, relDispArray, relValArray, resDispA
 	
 	var relToPat = createNakedOptionSelect("rel_"+fieldGroupCount,relDispArray,relValArray,classAttr);
 	
-	var hivRes = createNakedOptionSelect("res_"+fieldGroupCount,resDispArray,resValArray,classAttr);
-	
+	var hivRes = createNakedOptionSelect("res_"+fieldGroupCount,resDispArray,resValArray,classAttr);	
 	
 	//field for the results of treatment
-	var nom = $(document.createElement("input")).attr("type","text").attr("name","nom_"+fieldGroupCount);
-	var prenom = $(document.createElement("input")).attr("type","text").attr("name","pren_"+fieldGroupCount);
+	var nom = $(document.createElement("input")).attr("type","text").attr("name","nom_"+fieldGroupCount).attr("class","nomC").attr("id","nomId_"+fieldGroupCount);
+	var prenom = $(document.createElement("input")).attr("type","text").attr("name","pren_"+fieldGroupCount).attr("class","prenomC").attr("id","prenomId_"+fieldGroupCount);
 	var dob = $(document.createElement("input")).attr("type","text").attr("name","dob_"+fieldGroupCount).attr("size", "11").attr("class", "date").focus(function(e) { showCalendar(this); });
 	var dod = $(document.createElement("input")).attr("type","text").attr("name","dod_"+fieldGroupCount).attr("size", "11").attr("class", "date").focus(function(e) { showCalendar(this); });
 	var resDate = $(document.createElement("input")).attr("type","text").attr("name","resDate_"+fieldGroupCount).attr("size", "11").attr("class", "date").focus(function(e) { showCalendar(this); });
@@ -70,12 +69,12 @@ function createFamilyHIVSerologies(baseName, relDispArray, relValArray, resDispA
 	
 	// adding row fields
 	table.append($(document.createElement("tr")).attr("align", "left")
-			.append($(document.createElement("td")).attr("width","20").append(nom))
-			.append($(document.createElement("td")).attr("width","20").append(prenom))
+			.append($(document.createElement("td")).attr("width","20").attr("id","tdNomId_"+fieldGroupCount).append(nom))
+			.append($(document.createElement("td")).attr("width","20").attr("id","tdPrenomId_"+fieldGroupCount).append(prenom))
 			.append($(document.createElement("td")).attr("width","13").append(relToPat))
 			.append($(document.createElement("td")).attr("width","12").append(dob))
 			.append($(document.createElement("td")).attr("width","12").append(dod))
-			.append($(document.createElement("td")).attr("width","10").append(hivRes))			
+			.append($(document.createElement("td")).attr("width","10").append(hivRes))	
 			.append($(document.createElement("td")).attr("width","12").append(resDate))
 			.append($(document.createElement("td")).append(deleteButton))
 			);
@@ -84,7 +83,7 @@ function createFamilyHIVSerologies(baseName, relDispArray, relValArray, resDispA
 
 	// add the line separator between tables
 	table.append($(document.createElement("tr"))
-			.append($(document.createElement("td")).attr("colspan","5")
+			.append($(document.createElement("td")).attr("colspan","7")
 					.append($(document.createElement("hr")).attr("color","#C9C9C9"))
 					));
 
@@ -94,7 +93,9 @@ function createFamilyHIVSerologies(baseName, relDispArray, relValArray, resDispA
 	table.show(200);
 	//counting++;
 	//alert(counting);
+	return fieldGroupCount
 }
+
 
 
 function createOpportunisticInfections(baseName, oIDispArray, oIValArray, classAttr, sysDispArray, sysValArray, resTtle, sDate, eDate, ois){

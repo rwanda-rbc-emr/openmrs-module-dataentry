@@ -22,6 +22,10 @@
 
 <openmrs:htmlInclude file="/moduleResources/dataentry/calendar.js" />
 
+<script src="/openmrs.1.6.5/scripts/dojoConfig.js?v=1.6.5.24460" type="text/javascript" ></script> 
+<script src="/openmrs.1.6.5/scripts/dojo/dojo.js?v=1.6.5.24460" type="text/javascript" ></script> 
+<script src="/openmrs.1.6.5/dwr/interface/DWRPersonService.js?v=1.6.5.24460" type="text/javascript" ></script>
+
 <script type="text/javascript">
 
 var $ = jQuery.noConflict();
@@ -203,11 +207,12 @@ var symIdArray = new Array();
 						function(){
 							createSTI("stiList", stiArray, stiIdArray, "dynamicSTI", "<spring:message code="dataentry.sti" />", "<spring:message code="dataentry.doi" />");
 						}
-					);
+					);				
 
 				$("#addFamSeroId").click(
 						function(){
-							createFamilyHIVSerologies("famSeroList", relArray, relIdArray, resArray, resIdArray, "dynamicFamSero", "<spring:message code="dataentry.familyName" />", "<spring:message code="dataentry.name" />", "<spring:message code="dataentry.dob" />", "<spring:message code="dataentry.dod" />", "<spring:message code="dataentry.rel" />", "<spring:message code="dataentry.hivTestRes" />", "<spring:message code="dataentry.hivTestResDate" />");
+							var id = createFamilyHIVSerologies("famSeroList", relArray, relIdArray, resArray, resIdArray, "dynamicFamSero", "<spring:message code="dataentry.familyName" />", "<spring:message code="Given Name" />", "<spring:message code="dataentry.dob" />", "<spring:message code="dataentry.dod" />", "<spring:message code="dataentry.rel" />", "<spring:message code="dataentry.hivTestRes" />", "<spring:message code="dataentry.hivTestResDate" />");
+							//alert('tdNomId_'+id);
 						}
 					);
 
