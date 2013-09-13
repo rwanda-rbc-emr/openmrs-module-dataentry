@@ -166,11 +166,12 @@ public class Utils {
 		List<Encounter> encounters = encService.getEncounters(patient);
 
 		for (Encounter enc : encounters) {
-			if (enc.getEncounterType().getEncounterTypeId() == Constants.ADULT_INITIAL
-					|| enc.getEncounterType().getEncounterTypeId() == Constants.PEDS_INITIAL) {
-				isTrue = true;
-				break;
-			}
+			if(!enc.isVoided())
+				if (enc.getEncounterType().getEncounterTypeId() == Constants.ADULT_INITIAL
+						|| enc.getEncounterType().getEncounterTypeId() == Constants.PEDS_INITIAL) {
+					isTrue = true;
+					break;
+				}
 		}
 		return isTrue;
 	}
