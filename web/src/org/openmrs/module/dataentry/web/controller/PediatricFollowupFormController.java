@@ -197,13 +197,13 @@ public class PediatricFollowupFormController extends
 		String personPhoneNrObs = null;
 		if (obsPersonPhoneNrList.size() > 0)
 			personPhoneNrObs = obsService.getObs(
-					Utils.biggestObsIdNubmer(obsPersonPhoneNrList))
+					Utils.currentObsId(obsPersonPhoneNrList))
 					.getValueText();
 		String contactPhoneNrObs = "";
 		try {
 			if (obsContactPhoneNrList.size() > 0) {
 				contactPhoneNrObs = obsService.getObs(
-						Utils.biggestObsIdNubmer(obsContactPhoneNrList))
+						Utils.currentObsId(obsContactPhoneNrList))
 						.getValueText();
 			}
 		} catch (NullPointerException npe) { log.error("The Contact Phone Number is not written correctly"); }
@@ -211,22 +211,22 @@ public class PediatricFollowupFormController extends
 		double patientChildObs = 0;
 		if (obsPatientChildList.size() > 0)
 			patientChildObs = obsService.getObs(
-					Utils.biggestObsIdNubmer(obsPatientChildList))
+					Utils.currentObsId(obsPatientChildList))
 					.getValueNumeric();
 		Integer visitReasonObs = 0;
 		if (obsVisitReasonList.size() > 0)
 			visitReasonObs = obsService.getObs(
-					Utils.biggestObsIdNubmer(obsVisitReasonList))
+					Utils.currentObsId(obsVisitReasonList))
 					.getValueCoded().getConceptId();
 		String contactNameObs = "";
 		if (obsContactNameList.size() > 0)
 			contactNameObs = obsService.getObs(
-					Utils.biggestObsIdNubmer(obsContactNameList))
+					Utils.currentObsId(obsContactNameList))
 					.getValueText();
 		String RelationObs = "";
 		if (obsRelationList.size() > 0)
 			RelationObs = obsService.getObs(
-					Utils.biggestObsIdNubmer(obsRelationList)).getValueText();
+					Utils.currentObsId(obsRelationList)).getValueText();
 
 		opportunisticInfections = conceptService.getConcept(
 				Constants.OPPORTUNISTIC_INFECTIONS_ID).getAnswers();

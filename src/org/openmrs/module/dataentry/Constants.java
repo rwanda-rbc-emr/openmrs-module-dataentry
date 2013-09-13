@@ -96,6 +96,17 @@ public class Constants {
 	public static final int DURATION_OF_SYMPTOM_IN_DAYS = 1294;
 	public static final int DATE_OF_SURGERY = 3179;
 	
+	public static final int STI_SCREENING_CONSTRUCT = 10971;
+	public static final int UNPROTECTED_SEXUAL_INTERCOURSE = 10829;
+	public static final int DYSURIA = 6020;
+	public static final int VAGINAL_DISCHARGE = 5993;
+	public static final int GENITAL_SORES = 864;
+	public static final int IRRITABLE_BOWEL_SYNDROME = 10830;
+	public static final int VAGINITIS = 139;
+	public static final int EYE_DISCHARGE = 874;
+	public static final int TESTICULAR_TORSION = 7061;
+	public static final int GENITAL_WARTS = 10832;
+	public static final int DYSPAREUNIA = 10833;
 	
 	/**
 	 * get Global property values

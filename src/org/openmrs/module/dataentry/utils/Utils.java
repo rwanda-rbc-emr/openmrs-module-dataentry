@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptSet;
@@ -22,8 +24,6 @@ import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.dataentry.Constants;
-import org.openmrs.util.DatabaseUpdater.OpenMRSChangeSet;
-import org.openmrs.util.OpenmrsUtil;
 
 /**
  *
@@ -36,7 +36,7 @@ public class Utils {
 	 * @param numbers
 	 * @return
 	 */
-	public static Integer biggestObsIdNubmer(List<Obs> numbers) {
+	public static Integer currentObsId(List<Obs> numbers) {
 
 		int tmp = 0, big = 0;
 		for (Obs obs : numbers) {
@@ -248,10 +248,11 @@ public class Utils {
 		concept = conceptService.getConcept(big);
 		return concept;
 	}
-
-	public static List<EncounterType> getEncTypeList() {
-		List<EncounterType> encTypeList = new ArrayList<EncounterType>();
-
+	
+	public static String getCheckedParam(HttpServletRequest request, String param) {
+		if(request.getParameter(param) != null && !request.getParameter(param).equals("")) {
+			return request.getParameter(param);
+		}
 		return null;
 	}
 

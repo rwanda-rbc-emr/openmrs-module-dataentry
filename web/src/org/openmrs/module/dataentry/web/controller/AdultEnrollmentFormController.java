@@ -584,6 +584,104 @@ public class AdultEnrollmentFormController extends
 						patient, nvReasonConc, nvReasonValue, 4);
 				obss.add(nvReasonObs);
 			}
+			
+			
+			//Start STI part			
+			Obs stiScreeningObsGr = Utils.createObsGr(encDate, encLocation,	patient, new Date(), conceptService.getConcept(10971));
+			Concept riskSexConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "risk_sex_10829") != null && Utils.getCheckedParam(request, "risk_sex_10829").equals("Yes")) {
+				Concept riskSexValue = conceptService.getConcept(10829);
+				Obs riskSexObs = Utils.createObservation(encDate, encLocation, patient, riskSexConc, riskSexValue, 4);
+				stiScreeningObsGr.addGroupMember(riskSexObs);
+				System.out.println(request.getParameter("risk_sex_10829"));
+			}
+			
+			Concept painUrinatingConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "pain_urinating_6020") != null && Utils.getCheckedParam(request, "pain_urinating_6020").equals("Yes")) {
+				Concept painUrinatingValue = conceptService.getConcept(6020);
+				Obs painUrinatingObs = Utils.createObservation(encDate, encLocation, patient, painUrinatingConc, painUrinatingValue, 4);
+				stiScreeningObsGr.addGroupMember(painUrinatingObs);
+				System.out.println(request.getParameter("pain_urinating_6020"));
+			}
+			
+			Concept lowAbdPainConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "lo_abd_pain_10830") != null && Utils.getCheckedParam(request, "lo_abd_pain_10830").equals("Yes")) {
+				Concept lowAbdPainValue = conceptService.getConcept(10830);
+				Obs lowAbdPainObs = Utils.createObservation(encDate, encLocation, patient, lowAbdPainConc, lowAbdPainValue, 4);
+				stiScreeningObsGr.addGroupMember(lowAbdPainObs);
+				System.out.println(request.getParameter("lo_abd_pain_10830"));
+			}
+			
+			Concept vaginalItchingConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "vag_itching_139") != null && Utils.getCheckedParam(request, "vag_itching_139").equals("Yes")) {
+				Concept vaginalItchingValue = conceptService.getConcept(139);
+				Obs vaginalItchingObs = Utils.createObservation(encDate, encLocation, patient, vaginalItchingConc, vaginalItchingValue, 4);
+				stiScreeningObsGr.addGroupMember(vaginalItchingObs);
+				System.out.println(request.getParameter("vag_itching_139"));
+			}
+			
+			Concept eyeDishchargeConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "eye_discharge_child_874") != null && Utils.getCheckedParam(request, "eye_discharge_child_874").equals("Yes")) {
+				Concept eyeDishchargeValue = conceptService.getConcept(874);
+				Obs eyeDishchargeObs = Utils.createObservation(encDate, encLocation, patient, eyeDishchargeConc, eyeDishchargeValue, 4);
+				stiScreeningObsGr.addGroupMember(eyeDishchargeObs);
+				System.out.println(request.getParameter("eye_discharge_child_874"));
+			}
+			
+			Concept scrotalSwellingConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "scrotal_swelling_7061") != null && Utils.getCheckedParam(request, "scrotal_swelling_7061").equals("Yes")) {
+				Concept scrotalSwellingValue = conceptService.getConcept(7061);
+				Obs scrotalSwellingObs = Utils.createObservation(encDate, encLocation, patient, scrotalSwellingConc, scrotalSwellingValue, 4);
+				stiScreeningObsGr.addGroupMember(scrotalSwellingObs);
+				System.out.println(request.getParameter("scrotal_swelling_7061"));
+			}
+			
+			Concept vegyAnogenitalConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "vegy_anogenital_10832") != null && Utils.getCheckedParam(request, "vegy_anogenital_10832").equals("Yes")) {
+				Concept vegyAnogenitalValue = conceptService.getConcept(10832);
+				Obs vegyAnogenitalObs = Utils.createObservation(encDate, encLocation, patient, vegyAnogenitalConc, vegyAnogenitalValue, 4);
+				stiScreeningObsGr.addGroupMember(vegyAnogenitalObs);
+				System.out.println(request.getParameter("vegy_anogenital_10832"));
+			}
+			
+			Concept dyspareuniaConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "dyspareunia_10833") != null && Utils.getCheckedParam(request, "dyspareunia_10833").equals("Yes")) {
+				Concept dyspareuniaValue = conceptService.getConcept(10833);
+				Obs dyspareuniaObs = Utils.createObservation(encDate, encLocation, patient, dyspareuniaConc, dyspareuniaValue, 4);
+				stiScreeningObsGr.addGroupMember(dyspareuniaObs);
+				System.out.println(request.getParameter("dyspareunia_10833"));
+			}
+			
+			
+			Concept soresGenitalConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "sores_genital_864") != null && Utils.getCheckedParam(request, "sores_genital_864").equals("Yes")) {
+				Concept soresGenitalValue = conceptService.getConcept(864);
+				Obs soresGenitalObs = Utils.createObservation(encDate, encLocation, patient, soresGenitalConc, soresGenitalValue, 4);
+				stiScreeningObsGr.addGroupMember(soresGenitalObs);
+				System.out.println(request.getParameter("sores_genital_864"));
+			}
+			
+			Concept vaginalDischargeConc = conceptService.getConcept(10971);
+			if(Utils.getCheckedParam(request, "vag_discharge_5993") != null && Utils.getCheckedParam(request, "vag_discharge_5993").equals("Yes")) {
+				Concept vaginalDischargeValue = conceptService.getConcept(5993);
+				Obs vaginalDischargeObs = Utils.createObservation(encDate, encLocation, patient, vaginalDischargeConc, vaginalDischargeValue, 4);
+				stiScreeningObsGr.addGroupMember(vaginalDischargeObs);
+				System.out.println(request.getParameter("vag_discharge_5993"));
+			}
+			
+			if (Utils.getCheckedParam(request, "risk_sex_10829") != null 
+					|| Utils.getCheckedParam(request, "pain_urinating_6020") != null
+					|| Utils.getCheckedParam(request, "lo_abd_pain_10830") != null
+					|| Utils.getCheckedParam(request, "vag_itching_139") != null
+					|| Utils.getCheckedParam(request, "eye_discharge_child_874") != null
+					|| Utils.getCheckedParam(request, "scrotal_swelling_7061") != null
+					|| Utils.getCheckedParam(request, "vegy_anogenital_10832") != null
+					|| Utils.getCheckedParam(request, "dyspareunia_10833") != null
+					|| Utils.getCheckedParam(request, "sores_genital_864") != null
+					|| Utils.getCheckedParam(request, "vag_discharge_5993") != null) {
+				obss.add(stiScreeningObsGr);
+			}
+			//End STI part
 
 			EncounterType encType = new EncounterType();
 			if (request.getParameter("encounterTypeId").equals("-1")) {

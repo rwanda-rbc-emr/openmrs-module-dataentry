@@ -367,6 +367,41 @@ var symIdArray = new Array();
 </table>
 </fieldset>
 
+<fieldset><legend>STI Screening</legend>
+	<table cellspacing="20px">
+		<tr>
+			<td>Have you had a recent risk sex?</td><td><input type="radio" name="risk_sex_10829" value="Yes" title="Yes" />Yes <input type="radio" name="risk_sex_10829" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have pain when you urinate?</td><td><input type="radio" name="pain_urinating_6020" value="Yes" title="Yes" />Yes <input type="radio" name="pain_urinating_6020" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have any unusual vaginal discharge?</td><td><input type="radio" name="vag_discharge_5993" value="Yes" title="Yes" />Yes <input type="radio" name="vag_discharge_5993" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have sores / ulcers in the genital area?</td><td><input type="radio" name="sores_genital_864" value="Yes" title="Yes" />Yes <input type="radio" name="sores_genital_864" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have pain in the lower abdomen?</td><td><input type="radio" name="lo_abd_pain_10830" value="Yes" title="Yes" />Yes <input type="radio" name="lo_abd_pain_10830" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have vaginal itching?</td><td><input type="radio" name="vag_itching_139" value="Yes" title="Yes" />Yes <input type="radio" name="vag_itching_139" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Is there a discharge from the eye to your newborn?</td><td><input type="radio" name="eye_discharge_child_874" value="Yes" title="Yes" />Yes <input type="radio" name="eye_discharge_child_874" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Is there scrotal swelling?</td><td><input type="radio" name="scrotal_swelling_7061" value="Yes" title="Yes" />Yes <input type="radio" name="scrotal_swelling_7061" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have any vegetation anogenital?</td><td><input type="radio" name="vegy_anogenital_10832" value="Yes" title="Yes" />Yes <input type="radio" name="vegy_anogenital_10832" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Is there a notion of dyspareunia?</td><td><input type="radio" name="dyspareunia_10833" value="Yes" title="Yes" />Yes <input type="radio" name="dyspareunia_10833" value="No" />No</td>
+		</tr>
+	</table> 
+</fieldset>
+
 <fieldset><legend><spring:message
 	code="dataentry.coughSymptoms" /></legend>
 <table cellspacing="20px">

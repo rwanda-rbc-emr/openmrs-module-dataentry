@@ -22,10 +22,6 @@
 
 <openmrs:htmlInclude file="/moduleResources/dataentry/calendar.js" />
 
-<script src="/openmrs.1.6.5/scripts/dojoConfig.js?v=1.6.5.24460" type="text/javascript" ></script> 
-<script src="/openmrs.1.6.5/scripts/dojo/dojo.js?v=1.6.5.24460" type="text/javascript" ></script> 
-<script src="/openmrs.1.6.5/dwr/interface/DWRPersonService.js?v=1.6.5.24460" type="text/javascript" ></script>
-
 <script type="text/javascript">
 
 var $ = jQuery.noConflict();
@@ -207,12 +203,11 @@ var symIdArray = new Array();
 						function(){
 							createSTI("stiList", stiArray, stiIdArray, "dynamicSTI", "<spring:message code="dataentry.sti" />", "<spring:message code="dataentry.doi" />");
 						}
-					);				
+					);
 
 				$("#addFamSeroId").click(
 						function(){
-							var id = createFamilyHIVSerologies("famSeroList", relArray, relIdArray, resArray, resIdArray, "dynamicFamSero", "<spring:message code="dataentry.familyName" />", "<spring:message code="Given Name" />", "<spring:message code="dataentry.dob" />", "<spring:message code="dataentry.dod" />", "<spring:message code="dataentry.rel" />", "<spring:message code="dataentry.hivTestRes" />", "<spring:message code="dataentry.hivTestResDate" />");
-							//alert('tdNomId_'+id);
+							createFamilyHIVSerologies("famSeroList", relArray, relIdArray, resArray, resIdArray, "dynamicFamSero", "<spring:message code="dataentry.familyName" />", "<spring:message code="dataentry.name" />", "<spring:message code="dataentry.dob" />", "<spring:message code="dataentry.dod" />", "<spring:message code="dataentry.rel" />", "<spring:message code="dataentry.hivTestRes" />", "<spring:message code="dataentry.hivTestResDate" />");
 						}
 					);
 
@@ -240,23 +235,7 @@ var symIdArray = new Array();
 			    	var concId = this.id;
 			    });			    
 });
-
 	var patId = <c:out value="${patientId}" />
-	
-
-	function saveWhoStage(concId){
-		$.get("${pageContext.request.contextPath}/module/dataentry/adultEnrollment.form?patientId="+patId, {
-			ConceptId :concId
-		}, function(data) {
-			var concepId = $("concepId", data).text();
-
-			var dateRow = $(document.createElement("tr"))
-								.append($(document.createElement("td")).text(concepId));
-			alert(data);
-			$("#resulttableid").append(dateRow);
-			
-		}, 'xml');
-	}
 </script>
 
 <a
@@ -512,6 +491,41 @@ var symIdArray = new Array();
 	</tr>
 
 </table>
+</fieldset>
+
+<fieldset><legend>STI Screening</legend>
+	<table cellspacing="20px">
+		<tr>
+			<td>Have you had a recent risk sex?</td><td><input type="radio" name="risk_sex_10829" value="Yes" title="Yes" />Yes <input type="radio" name="risk_sex_10829" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have pain when you urinate?</td><td><input type="radio" name="pain_urinating_6020" value="Yes" title="Yes" />Yes <input type="radio" name="pain_urinating_6020" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have any unusual vaginal discharge?</td><td><input type="radio" name="vag_discharge_5993" value="Yes" title="Yes" />Yes <input type="radio" name="vag_discharge_5993" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have sores / ulcers in the genital area?</td><td><input type="radio" name="sores_genital_864" value="Yes" title="Yes" />Yes <input type="radio" name="sores_genital_864" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have pain in the lower abdomen?</td><td><input type="radio" name="lo_abd_pain_10830" value="Yes" title="Yes" />Yes <input type="radio" name="lo_abd_pain_10830" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have vaginal itching?</td><td><input type="radio" name="vag_itching_139" value="Yes" title="Yes" />Yes <input type="radio" name="vag_itching_139" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Is there a discharge from the eye to your newborn?</td><td><input type="radio" name="eye_discharge_child_874" value="Yes" title="Yes" />Yes <input type="radio" name="eye_discharge_child_874" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Is there scrotal swelling?</td><td><input type="radio" name="scrotal_swelling_7061" value="Yes" title="Yes" />Yes <input type="radio" name="scrotal_swelling_7061" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Do you have any vegetation anogenital?</td><td><input type="radio" name="vegy_anogenital_10832" value="Yes" title="Yes" />Yes <input type="radio" name="vegy_anogenital_10832" value="No" />No</td>
+		</tr>
+		<tr>
+			<td>Is there a notion of dyspareunia?</td><td><input type="radio" name="dyspareunia_10833" value="Yes" title="Yes" />Yes <input type="radio" name="dyspareunia_10833" value="No" />No</td>
+		</tr>
+	</table> 
 </fieldset>
 
 <fieldset><legend><spring:message
