@@ -136,7 +136,7 @@ var symIdArray = new Array();
 				
 				$("#addSurgeryId").click(
 						function(){
-							createSurgery("surgeries", "dynamicSurgery", "<spring:message code="dataentry.surgeName" />", "<spring:message code="dataentry.surgDate" />");
+							createSurgery("surgeries", "dynamicSurgery", "<spring:message code="dataentry.surgeName" />", "<spring:message code="dataentry.surgeDate" />");
 						}
 					);
 				
