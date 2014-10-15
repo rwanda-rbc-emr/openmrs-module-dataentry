@@ -230,6 +230,17 @@
 	</tr>
 
 	<tr>
+		<td valign="top"><spring:message code="Regimen Line" /></td>
+		<td>
+			<select name="regimenLine">
+				<option value="11046">1st Line regimen</option>
+				<option value="11047">2nd Line regimen</option>
+				<option value="11048">3rd Line Regimen</option>
+			</select>
+		</td>
+	</tr>
+
+	<tr>
 		<td valign="top"><spring:message code="dataentry.instructions" /></td>
 		<td><textarea name="instructions" cols="50" rows="4"
 			id="dinstructions"></textarea></td>

@@ -540,6 +540,7 @@ public class AdultFollowupFormController extends ParameterizableViewController {
 				System.out.println(request.getParameter("risk_sex_10829"));
 			}
 			
+			
 			Concept painUrinatingConc = conceptService.getConcept(10971);
 			if(Utils.getCheckedParam(request, "pain_urinating_6020") != null && Utils.getCheckedParam(request, "pain_urinating_6020").equals("Yes")) {
 				Concept painUrinatingValue = conceptService.getConcept(6020);
@@ -623,6 +624,7 @@ public class AdultFollowupFormController extends ParameterizableViewController {
 					|| Utils.getCheckedParam(request, "dyspareunia_10833") != null
 					|| Utils.getCheckedParam(request, "sores_genital_864") != null
 					|| Utils.getCheckedParam(request, "vag_discharge_5993") != null) {
+				System.out.println("Adding all sti screen members into a list **************************************** " );
 				obss.add(stiScreeningObsGr);
 			}
 			//End STI part
@@ -652,7 +654,7 @@ public class AdultFollowupFormController extends ParameterizableViewController {
 					String fpmSuffix = "fpm_" + suffixId;
 					String surgSuffix = "surgeryDateValue_" + suffixId;
 					String stiSuffix = "sti_" + suffixId;
-					String stiDateSuffix = "stiDate_" + suffixId;
+//					String stiDateSuffix = "stiDate_" + suffixId;
 					String relSuffix = "rel_" + suffixId;
 					String whoSuffix = "whos_" + suffixId;
 
@@ -986,7 +988,7 @@ public class AdultFollowupFormController extends ParameterizableViewController {
 						}
 					}
 
-					if (stiSuffix.equals(str) && stiDateSuffix.equals(str)) {
+					if (stiSuffix.equals(str)) {
 						Obs stiObsGr = Utils.createObsGr(encDate, encLocation,
 								patient, new Date(), conceptService
 										.getConcept(constan

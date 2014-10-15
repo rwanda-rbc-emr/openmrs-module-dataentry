@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
@@ -19,11 +20,16 @@ import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Person;
+import org.openmrs.PersonName;
+import org.openmrs.Relationship;
+import org.openmrs.RelationshipType;
 import org.openmrs.User;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
+import org.openmrs.api.PersonService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.dataentry.Constants;
+import org.openmrs.util.OpenmrsUtil;
 
 /**
  *
@@ -31,7 +37,7 @@ import org.openmrs.module.dataentry.Constants;
 public class Utils {
 	
 	/**
-	 * returns the current entered obs from a list of specific <code>Obs</code>
+	 * returns the current entered obs from a list of specific <code>org.openmrs.Obs</code>
 	 * 
 	 * @param numbers
 	 * @return
@@ -256,5 +262,37 @@ public class Utils {
 		}
 		return null;
 	}
-
+	
+	public static void createRelationship (Person personB, RelationshipType type, String givenName, String familyName, Date encDate) {
+		
+		User authenticatedUser = Context.getAuthenticatedUser();
+		
+		PersonService personService = Context.getPersonService();
+		
+		Person personA = new Person();
+		PersonName name = new PersonName(givenName, null, familyName);
+		personA.setDateCreated(encDate);
+		personA.setVoided(false);
+		personA.setBirthdateEstimated(false);
+		personA.setDead(false);
+		personA.setCreator(authenticatedUser);
+		
+		personA.addName(name);
+		
+		personService.savePerson(personA);
+		
+		
+		Relationship relationship = new Relationship(personA, personB, type);
+		personService.saveRelationship(relationship);
+	}
+	
+	public static String getParameter(HttpServletRequest request, HttpServletResponse response, String param) {
+		String paramValue = null;
+		if(request.getParameter(param) != null && !request.getParameter(param).equals(null)) {
+			paramValue = request.getParameter(param);
+		}
+		return paramValue;
+	}
+	
+	
 }

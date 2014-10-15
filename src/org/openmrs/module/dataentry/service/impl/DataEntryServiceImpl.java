@@ -4,6 +4,7 @@
 package org.openmrs.module.dataentry.service.impl;
 
 import org.openmrs.Encounter;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.Relationship;
@@ -33,6 +34,11 @@ public class DataEntryServiceImpl implements DataEntryService {
 
 	public Relationship getRelationshipByPatient(Patient patient) {		
 		return dataEntryDAO.getRelationshipByPatient(patient);
+	}
+
+	@Override
+	public Obs getObsByPersonConcept(String personId, String conceptId) {
+		return dataEntryDAO.getObsByPersonConcept(personId, conceptId);
 	}
 
 //	public PatientProgram getPatientProgramByPatient(Patient patient) {

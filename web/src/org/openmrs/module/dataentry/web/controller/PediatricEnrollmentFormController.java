@@ -504,7 +504,6 @@ public class PediatricEnrollmentFormController extends
 					String fpmSuffix = "fpm_" + suffixId;
 					String surgSuffix = "surgeryDateValue_" + suffixId;
 					String stiSuffix = "sti_" + suffixId;
-					String stiDateSuffix = "stiDate_" + suffixId;
 					String whoSuffix = "whos_" + suffixId;
 
 					if (whoSuffix.equals(str)) {
@@ -749,7 +748,7 @@ public class PediatricEnrollmentFormController extends
 						}
 					}
 
-					if (stiSuffix.equals(str) && stiDateSuffix.equals(str)) {
+					if (stiSuffix.equals(str)) {
 						Obs stiObsGr = Utils.createObsGr(encDate, encLocation,
 								patient, new Date(), conceptService
 										.getConcept(constan
@@ -794,6 +793,7 @@ public class PediatricEnrollmentFormController extends
 			}
 
 			// Peds who category query
+			
 			if (Utils.getConceptFromSet(whosList, "peds") != null) {
 				Concept whoConcept = Utils.getConceptFromSet(whosList, "peds");
 				Concept currentWhoConcept = conceptService

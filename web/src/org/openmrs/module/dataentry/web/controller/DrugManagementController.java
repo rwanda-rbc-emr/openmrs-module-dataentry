@@ -81,6 +81,10 @@ public class DrugManagementController extends ParameterizableViewController {
 				drugOrder.setDateCreated(new Date());
 				drugOrder.setPatient(patient);
 				drugOrder.setDrug(drug);
+				if (request.getParameter("regimenLine") != null
+						&& !request.getParameter("regimenLine").equals(null)) {
+					drugOrder.setAccessionNumber(request.getParameter("regimenLine"));
+				}
 				if (request.getParameter("dose") != null
 						&& !request.getParameter("dose").equals(""))
 					drugOrder.setDose(Double.valueOf(request
@@ -99,9 +103,8 @@ public class DrugManagementController extends ParameterizableViewController {
 					mav.addObject("msg",
 							"An order has been created successfully!");
 				} else {
-					httpSession
-							.setAttribute(WebConstants.OPENMRS_ERROR_ATTR,
-									"You need to enter the start date!");
+					httpSession.setAttribute(WebConstants.OPENMRS_ERROR_ATTR,
+							"You need to enter the start date!");
 				}
 			}
 
@@ -112,8 +115,8 @@ public class DrugManagementController extends ParameterizableViewController {
 				&& !request.getParameter("editcreate").equals("")
 				&& patient != null) {
 			if (request.getParameter("editcreate").equals("edit")) {
-				DrugOrder drugOrder = orderService.getOrder(Integer
-						.valueOf(request.getParameter("orderId")),
+				DrugOrder drugOrder = orderService.getOrder(
+						Integer.valueOf(request.getParameter("orderId")),
 						DrugOrder.class);
 				Order order = orderService.getOrder(Integer.valueOf(request
 						.getParameter("orderId")));
@@ -181,8 +184,8 @@ public class DrugManagementController extends ParameterizableViewController {
 			mav.addObject("patient", patient);
 		}
 		mav.addObject("drugOrders", drugOrders);
-		mav.addObject("reasonStoppedOptions", Utils
-				.createCodedOptions(Constants.REASON_ORDER_STOPPED));
+		mav.addObject("reasonStoppedOptions",
+				Utils.createCodedOptions(Constants.REASON_ORDER_STOPPED));
 		mav.addObject("drugs", drugs);
 		mav.addObject("patientId", patient.getPatientId());
 		mav.addObject("encounter", encounter);

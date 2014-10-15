@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
@@ -47,9 +48,22 @@ public class DataEntryDAOImpl implements DataEntryDAO {
 			relationship = relationships.get(0);
 		
 		RelationshipType rt = Context.getPersonService().getRelationshipType(3);		
+		@SuppressWarnings("unused")
 		List<Relationship> r = Context.getPersonService().getRelationships(null, patient, rt);
 		
 		return relationship;
+	}
+
+	@Override
+	public Obs getObsByPersonConcept(String personId, String conceptId) {
+		StringBuffer sb = new StringBuffer();
+		Session session = sessionFactory.getCurrentSession();
+		
+		sb.append(" SELECT o.date_started FROM obs o INNER JOIN ");
+		sb.append(" SELECT person_id, MAX(date_started) AS start_date FROM obs WHERE concept_id = '" + conceptId + "' AND person_id = '" + personId + "' and voided = 0 GROUP BY person_id) "); 
+		sb.append(" AS ob ON o.person_id = ob.person_id AND o.date_started = ob.start_date GROUP BY o.person_id; ");
+		
+		return (Obs) session.createQuery(sb.toString()).uniqueResult();
 	}
 
 }

@@ -108,6 +108,10 @@ public class Constants {
 	public static final int GENITAL_WARTS = 10832;
 	public static final int DYSPAREUNIA = 10833;
 	
+	
+	public static final int REGIMEN_FIRST_LINE = 11046;
+	public static final int REGIMEN_SECOND_LINE = 11047;
+	public static final int REGIMEN_THIRD_LINE = 11048;
 	/**
 	 * get Global property values
 	 * 

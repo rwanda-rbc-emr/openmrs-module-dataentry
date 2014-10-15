@@ -469,7 +469,6 @@ public class PediatricFollowupFormController extends
 					String fpmSuffix = "fpm_" + suffixId;
 					String surgSuffix = "surgeryDateValue_" + suffixId;
 					String stiSuffix = "sti_" + suffixId;
-					String stiDateSuffix = "stiDate_" + suffixId;
 					String whoSuffix = "whos_" + suffixId;
 
 					if (whoSuffix.equals(str)) {
@@ -714,7 +713,7 @@ public class PediatricFollowupFormController extends
 						}
 					}
 
-					if (stiSuffix.equals(str) && stiDateSuffix.equals(str)) {
+					if (stiSuffix.equals(str)) {
 						Obs stiObsGr = Utils.createObsGr(encDate, encLocation,
 								patient, new Date(), conceptService
 										.getConcept(constan

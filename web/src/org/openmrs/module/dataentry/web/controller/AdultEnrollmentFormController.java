@@ -34,6 +34,7 @@ import org.openmrs.api.PatientService;
 import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.dataentry.Constants;
+import org.openmrs.module.dataentry.service.DataEntryService;
 import org.openmrs.module.dataentry.utils.Utils;
 import org.openmrs.util.OpenmrsConstants;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,7 +52,9 @@ public class AdultEnrollmentFormController extends
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
+		
+		DataEntryService des = Context.getService(DataEntryService.class);
+		
 		String oiId = null;
 		String treatmentResultId = null;
 		String OIStartDateId = null;
@@ -189,6 +192,36 @@ public class AdultEnrollmentFormController extends
 		if (request.getParameter("adultInit") != null
 				&& !request.getParameter("adultInit").equals("")) {
 			List<Obs> obss = new ArrayList<Obs>();
+			
+			/**
+			 * Regime start
+			 */
+			
+			/*if(Utils.getParameter(request, response, "treatmentType") != null) {
+				String treatmentType = request.getParameter("treatmentType");
+				String regimenLine = null;
+				Obs obs = null;
+				if(treatmentType.equals("art")) {
+					if(Utils.getParameter(request, response, "regimenLine") != null) {
+						regimenLine = request.getParameter("regimenLine");
+						if(regimenLine.equals("first_line")) {
+							obs = des.getObsByPersonConcept(patient.getPatientId() + "", Constants.REGIMEN_FIRST_LINE + "");
+						} else if(regimenLine.equals("second_line")) {
+							obs = des.getObsByPersonConcept(patient.getPatientId() + "", Constants.REGIMEN_SECOND_LINE + "");
+						} else if(regimenLine.equals("third_line")) {
+							obs = des.getObsByPersonConcept(patient.getPatientId() + "", Constants.REGIMEN_THIRD_LINE + "");
+						}
+					}
+					des.getObsByPersonConcept(patient.getPatientId() + "", "230");
+				} else {
+					
+				}
+				
+			}*/
+			
+			/**
+			 * Regimen End
+			 */
 
 			if (request.getParameter("encProvider") != null
 					&& !request.getParameter("encProvider").equals(""))
@@ -707,7 +740,7 @@ public class AdultEnrollmentFormController extends
 					String fpmSuffix = "fpm_" + suffixId;
 					String surgSuffix = "surgeryDateValue_" + suffixId;
 					String stiSuffix = "sti_" + suffixId;
-					String stiDateSuffix = "stiDate_" + suffixId;
+//					String stiDateSuffix = "stiDate_" + suffixId;
 					String relSuffix = "rel_" + suffixId;
 					String whoSuffix = "whos_" + suffixId;
 
@@ -1041,7 +1074,7 @@ public class AdultEnrollmentFormController extends
 						}
 					}
 
-					if (stiSuffix.equals(str) && stiDateSuffix.equals(str)) {
+					if (stiSuffix.equals(str)) {
 						Obs stiObsGr = Utils.createObsGr(encDate, encLocation,
 								patient, new Date(), conceptService
 										.getConcept(constan

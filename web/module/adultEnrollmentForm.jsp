@@ -7,20 +7,12 @@
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/dataentrystyle.css" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/jquery.js" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/validator.js" />
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/jquery.validate.js" />
+<openmrs:htmlInclude file="/moduleResources/dataentry/calendar.js" />
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/create_dynamic_field.js" />
-
-<openmrs:htmlInclude
-	file="/moduleResources/dataentry/jquery.simplemodal.js" />
-<openmrs:htmlInclude
-	file="/moduleResources/dataentry/jquery.createdit.js" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/basic.js" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/basic.css" />
-
-<openmrs:htmlInclude file="/moduleResources/dataentry/calendar.js" />
+<openmrs:htmlInclude file="/moduleResources/dataentry/validator.js" />
 
 <script type="text/javascript">
 
@@ -231,11 +223,21 @@ var symIdArray = new Array();
 			            msg: 'Required!'
 			        }
 			    });
+				
 			    $('whoStages').change(function() {
 			    	var concId = this.id;
-			    });			    
+			    });
+				
+				$('.linesCls').hide();
+			    
+			    $('#preartId').click(function() {
+			    	$('.linesCls').hide();
+			    });
+			    
+			    $('#artId').click(function() {
+			    	$('.linesCls').show();
+			    });
 });
-	var patId = <c:out value="${patientId}" />
 </script>
 
 <a
@@ -319,7 +321,52 @@ var symIdArray = new Array();
 	</tr>
 </table>
 </fieldset>
-
+<!-- 
+<fieldset>
+<legend><spring:message code="Treatment" /></legend>
+<dl>
+	<dt>
+		<input type="radio" name="treatmentType" value="preart" id="preartId" /> <span style="padding-left:5em">Pre-ART</span>
+	</dt>
+	<dt>
+		<input type="radio" name="treatmentType" value="art" id="artId" /> <span style="padding-left:5em">ART</span>
+	</dt>
+	<dd class="linesCls">
+		<table>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>Started Date</td>
+				<td>&#09;</td>
+				<td>Stopped Date</td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="line" value="first_line" id="firstLineId" /></td>
+				<td><span style="padding-left:5px">1<sup>st</sup> Line</span></td>
+				<td>&#09;<input type="text" name="firstLineStopDate" onfocus="showCalendar(this)" class="date" size="11" /></td>
+				<td>&#09;</td>
+				<td><input type="text" name="firstLineEndDate" onfocus="showCalendar(this)" class="date" size="11" /></td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="line" value="second_line" id="secondLineId" /></td>
+				<td><span style="padding-left:5px">2<sup>nd</sup> Line</span></td>
+				<td>&#09;<input type="text" name="secondLineStopDate" onfocus="showCalendar(this)" class="date" size="11" /></td>
+				<td>&#09;</td>
+				<td><input type="text" name="secondLineEndDate" onfocus="showCalendar(this)" class="date" size="11" /></td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="line" value="third_line" id="thirdLineId" /></td>
+				<td><span style="padding-left:5px">3<sup>rd</sup> Line</td>
+				<td>&#09;<input type="text" name="thirdLineStopDate" onfocus="showCalendar(this)" class="date" size="11" /></td>
+				<td>&#09;</td>
+				<td><input type="text" name="thirdLineEndDate" onfocus="showCalendar(this)" class="date" size="11" /></td>
+			</tr>
+			<tr></tr>
+		</table>
+	</dd>
+</dl>
+</fieldset>
+ -->
 <fieldset><legend><spring:message
 	code="dataentry.hivDiag" /></legend>
 <table cellspacing="20px">
