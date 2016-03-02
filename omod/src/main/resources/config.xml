@@ -3,10 +3,10 @@
 <module configVersion="1.0">
 	
 	<!-- DataEntry Module Properties -->
-	<id>dataentry</id>
-	<name>Data Entry</name>
-	<version>1.0.4</version>
-	<package>org.openmrs.module.@MODULE_ID@</package>
+	<id>@MODULE_ID@</id>
+	<name>@MODULE_NAME@</name>
+	<version>@MODULE_VERSION@</version>
+	<package>@MODULE_PACKAGE@</package>
 	<author>DUSABE Eric</author>
 	<description>Adult and Pediatric patient data entry</description>
 	<activator>@MODULE_PACKAGE@.DataEntryModuleActivator</activator>
@@ -68,7 +68,7 @@
 	</globalProperty>
 	<!--/ Required Global Properties -->
 	
-	<require_version>1.2.0.3400</require_version>
+	<require_version>${SH_OPENMRS_VERSION}</require_version>
 	<!-- 
 	<extension>
 		<point>org.openmrs.admin.list</point>
