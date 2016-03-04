@@ -5,7 +5,8 @@
 
 <openmrs:htmlInclude file="/moduleResources/dataentry/demo_page.css" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/demo_table.css" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/jquery.dataTables.js" />
+<openmrs:htmlInclude
+	file="/moduleResources/dataentry/jquery.dataTables.js" />
 
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/jquery.simplemodal.js" />
@@ -14,100 +15,11 @@
 <openmrs:htmlInclude file="/moduleResources/dataentry/basic.js" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/basic.css" />
 <openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
-<!-- openmrs:htmlInclude file="/scripts/dojo/dojo.js" /-->
+<openmrs:htmlInclude file="/scripts/dojo/dojo.js" />
+
 <link href="<%= request.getContextPath() %>/openmrs.css" type="text/css" rel="stylesheet" />
 
-
-<script type="text/javascript">
-	jQuery(document).ready( function() {
-		jQuery('.searchBox').hide();
-		
-		jQuery('#example').dataTable();
-		jQuery('.createditdialog-close').trigger('click');
-
-		jQuery('.edit').click( function() {
-			var index = this.id;
-			var prefix = index.substring(0, index.indexOf("_"));
-			var suffix = index.substring(index.indexOf("_") + 1);
-
-			var varDose = jQuery("#dose_" + suffix).text();
-			var drugId = jQuery("#drugId_" + suffix).text();
-			var varUnits = jQuery("#units_" + suffix).text();
-			var varFrequency = jQuery("#frequency_" + suffix).text();
-			var varQuantity = jQuery("#quantity_" + suffix).text();
-			var varStartDate = jQuery("#startDate_" + suffix).text();
-			var varDiscDate = jQuery("#discontinuedDate_" + suffix).text();
-			var varInstructions = jQuery("#instructions_" + suffix).val();
-
-			var varDrugId = document.getElementById("dname");//$("#dname").val();
-			var varDrugUnitId = document.getElementById("dunits");
-			
-				jQuery("#editing").attr("value", suffix);
-
-				//$("#dname").val(drugId);
-			
-				for ( var i = 0; i < varDrugId.options.length; i++) {
-					if (varDrugId.options[i].value == drugId) {
-						varDrugId.selectedIndex = i;
-						break;
-					}
-				}
-
-				for ( var i = 0; i < varDrugUnitId.options.length; i++) {
-					if (varDrugUnitId.options[i].value == varUnits) {
-						varDrugUnitId.selectedIndex = i;
-						break;
-					}
-				}
-
-				
-				//jQuery("#dname option[text=" + drugId +"]").attr("selected","selected");
-				jQuery("#ddose").attr("value", varDose);
-				//jQuery("#dunits").attr("value", varUnits);
-				jQuery("#dunits option[text=" + varUnits +"]").attr("selected","selected");
-				jQuery("#dfrequency").attr("value", varFrequency);
-				jQuery("#dquantity").attr("value", varQuantity);
-				jQuery("#dstartDate").attr("value", varStartDate);
-				jQuery("#ddiscontinuedDate").attr("value", varDiscDate);
-				jQuery("#dinstructions").html(varInstructions);
-				jQuery("#editingcreating").attr("value", "edit");
-
-				
-			});
-
-		jQuery('.stop').click( function() {
-			var index = this.id;
-			var prefix = index.substring(0, index.indexOf("_"));
-			var suffix = index.substring(index.indexOf("_") + 1);
-			var reasonsId = document.getElementById("reasonsId");
-			var varStartDate = jQuery("#stopDate_" + suffix).text();
-			var varReasons = jQuery("#discontinuedReason_" + suffix).text();
-			jQuery("#stopping").attr("value", suffix);
-			jQuery("#stopDateId").attr("value", varStartDate);
-			jQuery("#stop").attr("value", "stop");
-
-			for ( var i = 0; i < reasonsId.options.length; i++) {
-				if (reasonsId.options[i].value == varReasons) {
-					reasonsId.selectedIndex = i;
-					break;
-				}
-			}
-		});
-
-		jQuery('#create').click( function() {
-			jQuery("#editingcreating").attr("value", "create");
-		});
-		jQuery('#relEnc').click(function() {
-			jQuery('.searchBox').show();
-		});
-
-	});
-</script>
-
-<a
-	href="${pageContext.request.contextPath}/patientDashboard.form?patientId=${patient.patientId}"
-	style="text-decoration: none;"><openmrs:portlet url="patientHeader"
-	id="patientDashboardHeader" patientId="${patient.patientId}" /></a>
+<a href="${pageContext.request.contextPath}/patientDashboard.form?patientId=${patient.patientId}" style="text-decoration: none;"><openmrs:portlet url="patientHeader" id="patientDashboardHeader" patientId="${patient.patientId}" /></a>
 
 <div id="dt_example">
 <div id="container">
@@ -118,12 +30,13 @@
 			<th><spring:message code="dataentry.drugId" /></th>
 			<th><spring:message code="dataentry.drug" /></th>
 			<th><spring:message code="dataentry.dose" /></th>
-			<th><spring:message code="dataentry.units" /></th>
+			<th><spring:message code="dataentry.doseunits" /></th>
 			<th><spring:message code="dataentry.frequency" /></th>
 			<th><spring:message code="dataentry.quantity" /></th>
+			<th><spring:message code="dataentry.quantityunits" /></th>
+			<th><spring:message code="dataentry.route" /></th>
 			<th><spring:message code="dataentry.startDate" /></th>
 			<th><spring:message code="dataentry.stopDate" /></th>
-			<th><spring:message code="Stop Reason" /></th>
 			<th><spring:message code="dataentry.edit" /></th>
 			<th><spring:message code="dataentry.stop" /></th>
 		</tr>
@@ -139,14 +52,15 @@
 				</td>
 				<td><span id="name_${do.orderId}">${not empty do.drug ? do.drug.name : do.concept.name.name}</span></td>
 				<td><span id="dose_${do.orderId}">${do.dose}</span></td>
-				<td><span id="units_${do.orderId}">${do.units}</span></td>
-				<td><span id="frequency_${do.orderId}">${do.frequency}</span></td>
+				<td><span id="units_${do.orderId}" select-id="${do.doseUnits.uuid}">${do.doseUnits.names}</span></td>
+				<td><span id="frequency_${do.orderId}" select-id="${do.frequency.uuid}">${do.frequency.frequencyPerDay}</span></td>
 				<td><span id="quantity_${do.orderId}">${do.quantity}</span></td>
+				<td><span id="quantityUnits_${do.orderId}"select-id="${do.quantityUnits.uuid}">${do.quantityUnits.names}</span></td>
+				<td><span id="route_${do.orderId}"select-id="${do.route.uuid}">${do.route.names}</span></td>
 				<td><span id="startDate_${do.orderId}"><openmrs:formatDate
-					date="${do.startDate}" type="textbox" /></span></td>
+					date="${do.dateActivated}" type="textbox" /></span></td>
 				<td><span id="discontinuedDate_${do.orderId}"><openmrs:formatDate
-					date="${do.discontinuedDate}" type="textbox" /></span></td>
-				<td><span id="discontinueReason_${do.orderId}">${do.discontinuedReason.name}</span></td>
+					date="${do.dateStopped}" type="textbox" /></span></td>
 				<td><img id="edit_${do.orderId}" class="edit"
 					src="${pageContext.request.contextPath}/images/edit.gif"
 					style="cursor: pointer;" /></td>
@@ -308,4 +222,84 @@
 </form>
 <br />
 </div>
+
+<script type="text/javascript">
+var $dm = jQuery.noConflict();
+
+$dm(document).ready( function() {
+	$dm('.searchBox').hide();
+	$dm(".createditdialog-close").trigger("click");
+	$dm('#example').dataTable();
+	$dm('.edit').click( function() {
+		var index = this.id;
+		var prefix = index.substring(0, index.indexOf("_"));
+		var suffix = index.substring(index.indexOf("_") + 1);
+		var varDose = $dm("#dose_" + suffix).text();
+		var drugId = $dm("#drugId_" + suffix).text().replace(/\s/g, '');
+		var varUnits = $dm("#units_" + suffix).attr("select-id");
+		var varFrequency = $dm("#frequency_" + suffix).attr("select-id");
+		var varQuantity = $dm("#quantity_" + suffix).text();
+		var varQuantityUnits = $dm("#quantityUnits_" + suffix).attr("select-id");
+		var varRoute = $dm("#route_" + suffix).attr("select-id");
+		var varStartDate = $dm("#startDate_" + suffix).text();
+		var varDiscDate = $dm("#discontinuedDate_" + suffix).text();
+		var varInstructions = $dm("#instructions_" + suffix).val();
+		var varDrugId = document.getElementById("dname");//$("#dname").val();
+		var varDrugUnitId = document.getElementById("dunits");
+		
+			$dm("#editing").attr("value", suffix);
+			//$("#dname").val(drugId);
+		
+			for ( var i = 0; i < varDrugId.options.length; i++) {
+				if (varDrugId.options[i].value == drugId) {
+					varDrugId.selectedIndex = i;
+					break;
+				}
+			}
+			for ( var i = 0; i < varDrugUnitId.options.length; i++) {
+				if (varDrugUnitId.options[i].value == varUnits) {
+					varDrugUnitId.selectedIndex = i;
+					break;
+				}
+			}
+			
+			$dm("#ddose").attr("value", varDose);
+			$dm("#dunits").val(varUnits);
+			$dm("#dquantity").attr("value", varQuantity);
+			$dm("#dfrequency").val(varFrequency);
+			$dm("#dquantityunits").val(varQuantityUnits);
+			$dm("#dRoute").val(varRoute);
+			$dm("#dstartDate").val(varStartDate);
+			$dm("#ddiscontinuedDate").val(varDiscDate);
+			$dm("#dinstructions").html(varInstructions);
+			$dm("#editingcreating").attr("value", "edit");
+		});
+	
+	$dm('.stop').click( function() {
+		var index = this.id;
+		var prefix = index.substring(0, index.indexOf("_"));
+		var suffix = index.substring(index.indexOf("_") + 1);
+		var reasonsId = document.getElementById("reasonsId");
+		var varStartDate = $dm("#stopDate_" + suffix).text();
+		var varReasons = $dm("#discontinuedReason_" + suffix).text();
+		$dm("#stopping").attr("value", suffix);
+		$dm("#stopDateId").attr("value", varStartDate);
+		$dm("#stop").attr("value", "stop");
+		for ( var i = 0; i < reasonsId.options.length; i++) {
+			if (reasonsId.options[i].value == varReasons) {
+				reasonsId.selectedIndex = i;
+				break;
+			}
+		}
+	});
+	$dm('#create').click( function() {
+		$dm("#editingcreating").attr("value", "create");
+	});
+	$dm('#relEnc').click(function() {
+		$dm('.searchBox').show();
+	});
+});
+
+</script>
+
 <%@ include file="/WEB-INF/template/footer.jsp"%>

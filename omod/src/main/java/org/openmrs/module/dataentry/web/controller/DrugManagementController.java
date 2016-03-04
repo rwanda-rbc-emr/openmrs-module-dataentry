@@ -79,7 +79,8 @@ public class DrugManagementController extends ParameterizableViewController {
 							.getParameter("drugs")));
 					String startDateStr = ServletRequestUtils.getStringParameter(
 							request, "startdate", null);
-
+					String stopDateStr = ServletRequestUtils.getStringParameter(
+							request, "stopdate", null);
 					OrderType orderType = orderService
 							.getOrderType(Constants.DRUG_ORDER_TYPE);
 
@@ -118,6 +119,7 @@ public class DrugManagementController extends ParameterizableViewController {
 					drugOrder.setRoute(Context.getConceptService().getConceptByUuid(request.getParameter("drugRoute")));
 					if (!startDateStr.equals("") && startDateStr != null) {
 						Date startDate = sdf.parse(startDateStr);
+						Date stopDate = sdf.parse(stopDateStr);
 						drugOrder.setDateActivated(startDate);
 						Encounter enc1 = Context.getEncounterService().getEncounterByUuid(request.getParameter("encounter"));
 						Encounter enc = Utils.createEncounter(startDate, Context.getAuthenticatedUser(),
