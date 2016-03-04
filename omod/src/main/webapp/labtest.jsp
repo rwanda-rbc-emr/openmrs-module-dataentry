@@ -3,10 +3,10 @@
 
 <openmrs:require privilege="Add Data entry Laboratory examinations" otherwise="/login.htm" redirect="/module/dataentry/labtest.form"/>
 
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<openmrs:htmlInclude
-	file="/moduleResources/dataentry/dataentrystyle.css" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/calendar.js" />
+<%@ taglib prefix="springform" uri="/WEB-INF/taglibs/spring-form.tld" %>
+
+<openmrs:htmlInclude file="/moduleResources/dataentry/dataentrystyle.css" />
+<openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/jquery.js"/>
 <script type="text/javascript">
 
@@ -179,13 +179,13 @@ function saveLaboratoryTest(url, patId, convId, provId, date, locId, conId, resu
 
 <br/>
 
-<form:form commandName="laboratoryTest">
+<springform:form commandName="laboratoryTest">
 	<fieldset><legend ><spring:message code="dataentry.labTests" /></legend>
 	<table id="resulttableid">
 		
 	</table>
 	<input type = "hidden" name="encountertype" value="${encounterType}"/>
 	</fieldset>
-</form:form>
+</springform:form>
 </div>
 <%@ include file="/WEB-INF/template/footer.jsp"%>

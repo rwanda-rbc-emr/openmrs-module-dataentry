@@ -3,12 +3,9 @@
  */
 package org.openmrs.module.dataentry.service.impl;
 
-import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
-import org.openmrs.PatientProgram;
 import org.openmrs.Relationship;
-import org.openmrs.Role;
 import org.openmrs.module.dataentry.db.DataEntryDAO;
 import org.openmrs.module.dataentry.service.DataEntryService;
 

@@ -3,11 +3,9 @@
 
 <openmrs:require privilege="Add Data entry drugs" otherwise="/login.htm" redirect="/module/dataentry/drugManagement.htm"/>
 
-<openmrs:htmlInclude file="/moduleResources/dataentry/jquery.js" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/demo_page.css" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/demo_table.css" />
-<openmrs:htmlInclude
-	file="/moduleResources/dataentry/jquery.dataTables.js" />
+<openmrs:htmlInclude file="/moduleResources/dataentry/jquery.dataTables.js" />
 
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/jquery.simplemodal.js" />
@@ -15,36 +13,36 @@
 	file="/moduleResources/dataentry/jquery.createdit.js" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/basic.js" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/basic.css" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/calendar.js" />
-<openmrs:htmlInclude file="/scripts/dojo/dojo.js" />
+<openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
+<!-- openmrs:htmlInclude file="/scripts/dojo/dojo.js" /-->
 <link href="<%= request.getContextPath() %>/openmrs.css" type="text/css" rel="stylesheet" />
 
 
 <script type="text/javascript">
-	var $dm = jQuery.noConflict();
-	$dm(document).ready( function() {
-		$dm('.searchBox').hide();
+	jQuery(document).ready( function() {
+		jQuery('.searchBox').hide();
 		
-		$dm('#example').dataTable();
+		jQuery('#example').dataTable();
+		jQuery('.createditdialog-close').trigger('click');
 
-		$dm('.edit').click( function() {
+		jQuery('.edit').click( function() {
 			var index = this.id;
 			var prefix = index.substring(0, index.indexOf("_"));
 			var suffix = index.substring(index.indexOf("_") + 1);
 
-			var varDose = $dm("#dose_" + suffix).text();
-			var drugId = $dm("#drugId_" + suffix).text();
-			var varUnits = $dm("#units_" + suffix).text();
-			var varFrequency = $dm("#frequency_" + suffix).text();
-			var varQuantity = $dm("#quantity_" + suffix).text();
-			var varStartDate = $dm("#startDate_" + suffix).text();
-			var varDiscDate = $dm("#discontinuedDate_" + suffix).text();
-			var varInstructions = $dm("#instructions_" + suffix).val();
+			var varDose = jQuery("#dose_" + suffix).text();
+			var drugId = jQuery("#drugId_" + suffix).text();
+			var varUnits = jQuery("#units_" + suffix).text();
+			var varFrequency = jQuery("#frequency_" + suffix).text();
+			var varQuantity = jQuery("#quantity_" + suffix).text();
+			var varStartDate = jQuery("#startDate_" + suffix).text();
+			var varDiscDate = jQuery("#discontinuedDate_" + suffix).text();
+			var varInstructions = jQuery("#instructions_" + suffix).val();
 
 			var varDrugId = document.getElementById("dname");//$("#dname").val();
 			var varDrugUnitId = document.getElementById("dunits");
 			
-				$dm("#editing").attr("value", suffix);
+				jQuery("#editing").attr("value", suffix);
 
 				//$("#dname").val(drugId);
 			
@@ -63,30 +61,30 @@
 				}
 
 				
-				//$dm("#dname option[text=" + drugId +"]").attr("selected","selected");
-				$dm("#ddose").attr("value", varDose);
-				//$dm("#dunits").attr("value", varUnits);
-				$dm("#dunits option[text=" + varUnits +"]").attr("selected","selected");
-				$dm("#dfrequency").attr("value", varFrequency);
-				$dm("#dquantity").attr("value", varQuantity);
-				$dm("#dstartDate").attr("value", varStartDate);
-				$dm("#ddiscontinuedDate").attr("value", varDiscDate);
-				$dm("#dinstructions").html(varInstructions);
-				$dm("#editingcreating").attr("value", "edit");
+				//jQuery("#dname option[text=" + drugId +"]").attr("selected","selected");
+				jQuery("#ddose").attr("value", varDose);
+				//jQuery("#dunits").attr("value", varUnits);
+				jQuery("#dunits option[text=" + varUnits +"]").attr("selected","selected");
+				jQuery("#dfrequency").attr("value", varFrequency);
+				jQuery("#dquantity").attr("value", varQuantity);
+				jQuery("#dstartDate").attr("value", varStartDate);
+				jQuery("#ddiscontinuedDate").attr("value", varDiscDate);
+				jQuery("#dinstructions").html(varInstructions);
+				jQuery("#editingcreating").attr("value", "edit");
 
 				
 			});
 
-		$dm('.stop').click( function() {
+		jQuery('.stop').click( function() {
 			var index = this.id;
 			var prefix = index.substring(0, index.indexOf("_"));
 			var suffix = index.substring(index.indexOf("_") + 1);
 			var reasonsId = document.getElementById("reasonsId");
-			var varStartDate = $dm("#stopDate_" + suffix).text();
-			var varReasons = $dm("#discontinuedReason_" + suffix).text();
-			$dm("#stopping").attr("value", suffix);
-			$dm("#stopDateId").attr("value", varStartDate);
-			$dm("#stop").attr("value", "stop");
+			var varStartDate = jQuery("#stopDate_" + suffix).text();
+			var varReasons = jQuery("#discontinuedReason_" + suffix).text();
+			jQuery("#stopping").attr("value", suffix);
+			jQuery("#stopDateId").attr("value", varStartDate);
+			jQuery("#stop").attr("value", "stop");
 
 			for ( var i = 0; i < reasonsId.options.length; i++) {
 				if (reasonsId.options[i].value == varReasons) {
@@ -96,11 +94,11 @@
 			}
 		});
 
-		$dm('#create').click( function() {
-			$dm("#editingcreating").attr("value", "create");
+		jQuery('#create').click( function() {
+			jQuery("#editingcreating").attr("value", "create");
 		});
-		$dm('#relEnc').click(function() {
-			$dm('.searchBox').show();
+		jQuery('#relEnc').click(function() {
+			jQuery('.searchBox').show();
 		});
 
 	});
@@ -110,7 +108,6 @@
 	href="${pageContext.request.contextPath}/patientDashboard.form?patientId=${patient.patientId}"
 	style="text-decoration: none;"><openmrs:portlet url="patientHeader"
 	id="patientDashboardHeader" patientId="${patient.patientId}" /></a>
-
 
 <div id="dt_example">
 <div id="container">
@@ -168,8 +165,7 @@
 			<td></td>
 			<td></td>			
 			<td>
-			<button id="create" class="send"><spring:message
-				code="dataentry.create" /></button>
+			<button id="create" class="send"><spring:message code="dataentry.create" /></button>
 			</td>
 			<td></td>
 		</tr>
@@ -182,6 +178,7 @@
 <form method="post" action="drugManagement.htm?patientId=${patientId}">
 <input type="hidden" name="orderId" id="editing" /> <input
 	type="hidden" name="editcreate" id="editingcreating" />
+	<input type="hidden" name="encounter" value="${encounter.uuid}">
 <table>
 	<tr>
 		<td><spring:message code="dataentry.drug" /></td>
@@ -197,23 +194,41 @@
 	</tr>
 
 	<tr>
-		<td><spring:message code="dataentry.units" /></td>
+		<td><spring:message code="dataentry.doseunits" /></td>
 		<td>
 			<select name="units" id="dunits">
-				<option value="mg">mg</option>
-				<option value="ml">ml</option>
+				<c:forEach items="${doseUnits}" var="dose">
+					<option value="${dose.uuid}">${dose.names}</option>
+				</c:forEach>
 			</select>
-			<!-- <input id="dunits" type="text" name="units" size="5" /> --></td>
+		</td>
 	</tr>
 
 	<tr>
 		<td><spring:message code="dataentry.frequency" /></td>
-		<td><input id="dfrequency" type="text" name="frequency" /></td>
+		<td>
+			<select name="frequency" id="dfrequency">
+				<c:forEach items="${orderFrequencies}" var="dFreq">
+					<option value="${dFreq.uuid}">${dFreq.frequencyPerDay}</option>
+				</c:forEach>
+			</select>
+		</td>
 	</tr>
-
+	
 	<tr>
 		<td><spring:message code="dataentry.quantity" /></td>
 		<td><input id="dquantity" type="text" name="quantity" /></td>
+	</tr>
+	
+	<tr>
+		<td><spring:message code="dataentry.quantityunits" /></td>
+		<td>
+			<select name="quantityUnits" id="dquantityunits">
+				<c:forEach items="${quantityUnits}" var="dQtyU">
+					<option value="${dQtyU.uuid}">${dQtyU.names}</option>
+				</c:forEach>
+			</select>
+		</td>
 	</tr>
 
 	<tr>
@@ -229,6 +244,17 @@
 			readonly="readonly" /> (dd/mm/yyyy)</td>
 	</tr>
 
+	<tr>
+		<td><spring:message code="dataentry.route" /></td>
+		<td>
+			<select name="drugRoute" id="dRoute">
+				<c:forEach items="${drugRoutes}" var="dRoute">
+					<option value="${dRoute.uuid}">${dRoute.names}</option>
+				</c:forEach>
+			</select>
+		</td>
+	</tr>
+	
 	<tr>
 		<td valign="top"><spring:message code="Regimen Line" /></td>
 		<td>
@@ -256,6 +282,7 @@
 
 <div id="stop-modal-content">
 <form method="post" action="drugManagement.htm?patientId=${patientId}">
+<input type="hidden" name="encounter" value="${encounter.uuid}">
 <input type="hidden" name="orderId" id="stopping" /> <input
 	type="hidden" name="stopping" id="stop" />
 <table>

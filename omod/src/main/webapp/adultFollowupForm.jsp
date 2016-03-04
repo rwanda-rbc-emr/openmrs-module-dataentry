@@ -2,14 +2,10 @@
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <openmrs:require privilege="View Data Entry" otherwise="/login.htm"
 	redirect="/module/dataentry/adultFollowup.form" />
-<openmrs:htmlInclude
-	file="/moduleResources/dataentry/dataentrystyle.css" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/jquery.js" />
-<openmrs:htmlInclude
-	file="/moduleResources/dataentry/jquery.validate.js" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/calendar.js" />
-<openmrs:htmlInclude
-	file="/moduleResources/dataentry/create_dynamic_field.js" />
+<openmrs:htmlInclude file="/moduleResources/dataentry/dataentrystyle.css" />
+<openmrs:htmlInclude file="/moduleResources/dataentry/jquery.validate.js" />
+<openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
+<openmrs:htmlInclude file="/moduleResources/dataentry/create_dynamic_field.js" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/validator.js" />
 
 <script type="text/javascript">
@@ -279,7 +275,6 @@ var symIdArray = new Array();
 		</select></td>
 		<td><spring:message code="dataentry.date" /></td>
 		<td><input type="text" name="encDate" id="encDateId" onfocus="showCalendar(this)"
-			onchange="CompareDates('<openmrs:datePattern />');"
 			class="date" size="11" /> <span
 			id="msgId"></span></td>
 	</tr>

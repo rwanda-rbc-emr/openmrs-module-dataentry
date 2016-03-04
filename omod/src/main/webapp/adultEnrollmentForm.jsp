@@ -9,7 +9,7 @@
 <openmrs:htmlInclude file="/moduleResources/dataentry/jquery.js" />
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/jquery.validate.js" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/calendar.js" />
+<openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/create_dynamic_field.js" />
 <openmrs:htmlInclude file="/moduleResources/dataentry/validator.js" />
@@ -296,8 +296,7 @@ var symIdArray = new Array();
 			</c:forEach>
 		</select></td>
 		<td><spring:message code="dataentry.date" /></td>
-		<td><input type="text" name="encDate" id="encDateId" onchange="CompareDates('<openmrs:datePattern />');"
-			onfocus="showCalendar(this)" class="date" size="11" /><span id="msgId"></span></td>
+		<td><input type="text" name="encDate" id="encDateId" onfocus="showCalendar(this)" class="date" size="11" /><span id="msgId"></span></td>
 	</tr>
 	<tr>
 		<td><spring:message code="dataentry.encType" /></td>

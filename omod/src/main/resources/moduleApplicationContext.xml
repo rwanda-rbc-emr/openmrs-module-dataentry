@@ -21,7 +21,7 @@
 								<bean
 									class="org.openmrs.module.dataentry.db.impl.DataEntryDAOImpl">
 									<property name="sessionFactory">
-										<ref bean="sessionFactory" />
+										<ref bean="dbSessionFactory" />
 									</property>
 								</bean>
 							</property>

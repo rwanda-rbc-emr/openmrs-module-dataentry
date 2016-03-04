@@ -4,23 +4,23 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.context.Context;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.dataentry.db.DataEntryDAO;
 
 public class DataEntryDAOImpl implements DataEntryDAO {
 	protected static final Log log = LogFactory.getLog(DataEntryDAOImpl.class);
-	private SessionFactory sessionFactory;
+	private DbSessionFactory sessionFactory;
 
 	/**
 	 * @return the sessionFactory
 	 */
-	public SessionFactory getSessionFactory() {
+	public DbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
@@ -28,7 +28,7 @@ public class DataEntryDAOImpl implements DataEntryDAO {
 	 * @param sessionFactory
 	 *            the sessionFactory to set
 	 */
-	public void setSessionFactory(SessionFactory sessionFactory) {
+	public void setSessionFactory(DbSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -39,7 +39,7 @@ public class DataEntryDAOImpl implements DataEntryDAO {
 		sb.append(" SELECT r.* FROM relationship r WHERE person_b = '"
 				+ patient.getPatientId() + "' ");
 
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 
 		List<Relationship> relationships = session
 				.createSQLQuery(sb.toString()).addEntity("r",
@@ -57,7 +57,7 @@ public class DataEntryDAOImpl implements DataEntryDAO {
 	@Override
 	public Obs getObsByPersonConcept(String personId, String conceptId) {
 		StringBuffer sb = new StringBuffer();
-		Session session = sessionFactory.getCurrentSession();
+		DbSession session = sessionFactory.getCurrentSession();
 		
 		sb.append(" SELECT o.date_started FROM obs o INNER JOIN ");
 		sb.append(" SELECT person_id, MAX(date_started) AS start_date FROM obs WHERE concept_id = '" + conceptId + "' AND person_id = '" + personId + "' and voided = 0 GROUP BY person_id) "); 
