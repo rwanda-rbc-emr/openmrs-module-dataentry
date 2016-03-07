@@ -37,6 +37,7 @@ import org.openmrs.api.OrderService;
 import org.openmrs.api.ValidationException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.dataentry.Constants;
+import org.openmrs.module.dataentry.MoHDrugOrder;
 import org.openmrs.module.dataentry.utils.Utils;
 import org.openmrs.web.WebConstants;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -235,7 +236,7 @@ public class DrugManagementController extends ParameterizableViewController {
 
 		}
 
-		List<DrugOrder> drugOrders = new ArrayList<DrugOrder>();
+		List<MoHDrugOrder> drugOrders = new ArrayList<MoHDrugOrder>();
 		List<OrderFrequency> orderFrequencies = Context.getOrderService().getOrderFrequencies(false);//exclude retired
 		List<Concept> doseUnits = Context.getOrderService().getDrugDosingUnits();
 		List<Concept> quantityUnits = Context.getOrderService().getDrugDispensingUnits();
@@ -255,6 +256,7 @@ public class DrugManagementController extends ParameterizableViewController {
 		mav.addObject("quantityUnits", quantityUnits);
 		mav.addObject("encounter", encounter);
 		mav.addObject("drugRoutes", drugRoutes);
+		mav.addObject("moHDrugOrder", new MoHDrugOrder(new DrugOrder()));
 		mav.setViewName(getViewName());
 
 		return mav;
@@ -280,15 +282,17 @@ public class DrugManagementController extends ParameterizableViewController {
 		return enc;
 	}
 	
-	private List<DrugOrder> getDrugOrdersByPatient(Patient patient) {
+	private List<MoHDrugOrder> getDrugOrdersByPatient(Patient patient) {
 		List<Order> orderList = Context.getOrderService().getAllOrdersByPatient(patient);
-		List<DrugOrder> drugOrders = new ArrayList<DrugOrder>();
+		List<MoHDrugOrder> drugOrders = new ArrayList<MoHDrugOrder>();
 
 		List<Patient> patients = new Vector<Patient>();
 		patients.add(patient);
 		for(Order order: orderList) {
 			if("org.openmrs.DrugOrder".equals(order.getOrderType().getJavaClassName()) && order instanceof DrugOrder) {
-				drugOrders.add((DrugOrder) order);
+				MoHDrugOrder mohDOrder = new MoHDrugOrder((DrugOrder) order);
+				
+				drugOrders.add(mohDOrder);
 			}
 		}
 		return drugOrders;

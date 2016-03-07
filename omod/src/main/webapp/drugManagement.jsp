@@ -37,43 +37,34 @@
 			<th><spring:message code="dataentry.route" /></th>
 			<th><spring:message code="dataentry.startDate" /></th>
 			<th><spring:message code="dataentry.stopDate" /></th>
-			<th><spring:message code="dataentry.edit" /></th>
-			<th><spring:message code="dataentry.stop" /></th>
+			<th><spring:message code="dataentry.copy" /></th>
+			<th><spring:message code="dataentry.stopOrStart" /></th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${drugOrders}" var="do" varStatus="num">
 			<tr>
 				<td>
-					<input type="hidden" id="instructions_${do.orderId}" value="${do.instructions}" /> 
-					<span id="drugId_${do.orderId}">
-						${not empty do.drug.drugId ? do.drug.drugId : '<img id="stop_${do.orderId}" class="stop" src="images/alert.gif"	style="cursor: pointer;" title="Needs to be updated" />'}
+					<input type="hidden" id="instructions_${do.drugOrder.orderId}" value="${do.drugOrder.instructions}" /> 
+					<span id="drugId_${do.drugOrder.orderId}">
+						${not empty do.drugOrder.drug.drugId ? do.drugOrder.drug.drugId : '<img id="stop_${do.drugOrder.orderId}" class="stop" src="images/alert.gif"	style="cursor: pointer;" title="Needs to be updated" />'}
 					</span>
 				</td>
-				<td><span id="name_${do.orderId}">${not empty do.drug ? do.drug.name : do.concept.name.name}</span></td>
-				<td><span id="dose_${do.orderId}">${do.dose}</span></td>
-				<td><span id="units_${do.orderId}" select-id="${do.doseUnits.uuid}">${do.doseUnits.names}</span></td>
-				<td><span id="frequency_${do.orderId}" select-id="${do.frequency.uuid}">${do.frequency.frequencyPerDay}</span></td>
-				<td><span id="quantity_${do.orderId}">${do.quantity}</span></td>
-				<td><span id="quantityUnits_${do.orderId}"select-id="${do.quantityUnits.uuid}">${do.quantityUnits.names}</span></td>
-				<td><span id="route_${do.orderId}"select-id="${do.route.uuid}">${do.route.names}</span></td>
-				<td><span id="startDate_${do.orderId}"><openmrs:formatDate
-					date="${do.dateActivated}" type="textbox" /></span></td>
-				<td><span id="discontinuedDate_${do.orderId}"><openmrs:formatDate
-					date="${do.dateStopped}" type="textbox" /></span></td>
-				<td><img id="edit_${do.orderId}" class="edit"
-					src="${pageContext.request.contextPath}/images/edit.gif"
+				<td><span id="name_${do.drugOrder.orderId}">${not empty do.drugOrder.drug ? do.drugOrder.drug.name : do.drugOrder.concept.name.name}</span></td>
+				<td><span id="dose_${do.drugOrder.orderId}">${do.drugOrder.dose}</span></td>
+				<td><span id="units_${do.drugOrder.orderId}" select-id="${do.drugOrder.doseUnits.uuid}">${do.drugOrder.doseUnits.names}</span></td>
+				<td><span id="frequency_${do.drugOrder.orderId}" select-id="${do.drugOrder.frequency.uuid}">${do.drugOrder.frequency.frequencyPerDay}</span></td>
+				<td><span id="quantity_${do.drugOrder.orderId}">${do.drugOrder.quantity}</span></td>
+				<td><span id="quantityUnits_${do.drugOrder.orderId}"select-id="${do.drugOrder.quantityUnits.uuid}">${do.drugOrder.quantityUnits.names}</span></td>
+				<td><span id="route_${do.drugOrder.orderId}"select-id="${do.drugOrder.route.uuid}">${do.drugOrder.route.names}</span></td>
+				<td><span id="startDate_${do.drugOrder.orderId}"><openmrs:formatDate
+					date="${do.drugOrder.dateActivated}" type="textbox" /></span></td>
+				<td><span id="discontinuedDate_${do.drugOrder.orderId}"><openmrs:formatDate
+					date="${do.drugOrder.dateStopped}" type="textbox" /></span></td>
+				<td><img id="edit_${do.drugOrder.orderId}" class="edit"
+					src="${pageContext.request.contextPath}/images/copy.gif"
 					style="cursor: pointer;" /></td>
-				<c:choose>
-					<c:when test="${(do.dateActivated == null || do.action == 'DISCONTINUE' || do.voided == true) || (today.time lt do.dateActivated.time && today.time lt do.autoExpireDate.time && today.time lt do.dateStopped.time && today.time lt do.scheduledDate.time)}">
-						<td></td>
-					</c:when>
-					<c:otherwise>
-						<td><img id="stop_${do.orderId}" class="stop"
-							src="${pageContext.request.contextPath}/images/stop.gif"
-							style="cursor: pointer;" /></td>
-					</c:otherwise>
-				</c:choose>
+				<td>${moHDrugOrder.wow}</td>		
 			</tr>
 		</c:forEach>
 	</tbody>
