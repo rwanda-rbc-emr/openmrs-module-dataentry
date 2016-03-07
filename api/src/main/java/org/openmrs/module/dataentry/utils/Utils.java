@@ -29,7 +29,6 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.dataentry.Constants;
-import org.openmrs.util.OpenmrsUtil;
 
 /**
  *

@@ -64,9 +64,16 @@
 				<td><img id="edit_${do.orderId}" class="edit"
 					src="${pageContext.request.contextPath}/images/edit.gif"
 					style="cursor: pointer;" /></td>
-				<td><img id="stop_${do.orderId}" class="stop"
-					src="${pageContext.request.contextPath}/images/stop.gif"
-					style="cursor: pointer;" /></td>
+				<c:choose>
+					<c:when test="${(do.dateActivated == null || do.action == 'DISCONTINUE' || do.voided == true) || (today.time lt do.dateActivated.time && today.time lt do.autoExpireDate.time && today.time lt do.dateStopped.time && today.time lt do.scheduledDate.time)}">
+						<td></td>
+					</c:when>
+					<c:otherwise>
+						<td><img id="stop_${do.orderId}" class="stop"
+							src="${pageContext.request.contextPath}/images/stop.gif"
+							style="cursor: pointer;" /></td>
+					</c:otherwise>
+				</c:choose>
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -231,6 +238,9 @@ $dm(document).ready( function() {
 	$dm(".createditdialog-close").trigger("click");
 	$dm('#example').dataTable();
 	$dm('.edit').click( function() {
+		$dm("#editingcreating").attr("value", "edit");
+		$dm("#stop").attr("value", "stop");
+		
 		var index = this.id;
 		var prefix = index.substring(0, index.indexOf("_"));
 		var suffix = index.substring(index.indexOf("_") + 1);
@@ -272,10 +282,12 @@ $dm(document).ready( function() {
 			$dm("#dstartDate").val(varStartDate);
 			$dm("#ddiscontinuedDate").val(varDiscDate);
 			$dm("#dinstructions").html(varInstructions);
+			//$dm("#dinstructions").attr("disabled", true);
 			$dm("#editingcreating").attr("value", "edit");
 		});
 	
 	$dm('.stop').click( function() {
+		$dm("#editingcreating").attr("value", "");
 		var index = this.id;
 		var prefix = index.substring(0, index.indexOf("_"));
 		var suffix = index.substring(index.indexOf("_") + 1);
@@ -294,6 +306,7 @@ $dm(document).ready( function() {
 	});
 	$dm('#create').click( function() {
 		$dm("#editingcreating").attr("value", "create");
+		$dm("#stop").attr("value", "");
 	});
 	$dm('#relEnc').click(function() {
 		$dm('.searchBox').show();
