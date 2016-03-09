@@ -12,12 +12,11 @@ import org.springframework.web.servlet.View;
 
 public class LabTestView implements View{
 	protected final Log log = LogFactory.getLog(getClass());
+	
 	public String getContentType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void render(Map model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		

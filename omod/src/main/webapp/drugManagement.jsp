@@ -37,8 +37,9 @@
 			<th><spring:message code="dataentry.route" /></th>
 			<th><spring:message code="dataentry.startDate" /></th>
 			<th><spring:message code="dataentry.stopDate" /></th>
-			<th><spring:message code="dataentry.copy" /></th>
+			<th><spring:message code="dataentry.edit" /></th>
 			<th><spring:message code="dataentry.stopOrStart" /></th>
+			<th><spring:message code="general.delete" /></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -52,19 +53,35 @@
 				</td>
 				<td><span id="name_${do.drugOrder.orderId}">${not empty do.drugOrder.drug ? do.drugOrder.drug.name : do.drugOrder.concept.name.name}</span></td>
 				<td><span id="dose_${do.drugOrder.orderId}">${do.drugOrder.dose}</span></td>
-				<td><span id="units_${do.drugOrder.orderId}" select-id="${do.drugOrder.doseUnits.uuid}">${do.drugOrder.doseUnits.names}</span></td>
+				<td><span id="units_${do.drugOrder.orderId}" select-id="${do.drugOrder.doseUnits.uuid}">${do.doseUnitsName}</span></td>
 				<td><span id="frequency_${do.drugOrder.orderId}" select-id="${do.drugOrder.frequency.uuid}">${do.drugOrder.frequency.frequencyPerDay}</span></td>
 				<td><span id="quantity_${do.drugOrder.orderId}">${do.drugOrder.quantity}</span></td>
-				<td><span id="quantityUnits_${do.drugOrder.orderId}"select-id="${do.drugOrder.quantityUnits.uuid}">${do.drugOrder.quantityUnits.names}</span></td>
-				<td><span id="route_${do.drugOrder.orderId}"select-id="${do.drugOrder.route.uuid}">${do.drugOrder.route.names}</span></td>
+				<td><span id="quantityUnits_${do.drugOrder.orderId}"select-id="${do.drugOrder.quantityUnits.uuid}">${do.quantityUnitsName}</span></td>
+				<td><span id="route_${do.drugOrder.orderId}"select-id="${do.drugOrder.route.uuid}">${do.routeName}</span></td>
 				<td><span id="startDate_${do.drugOrder.orderId}"><openmrs:formatDate
 					date="${do.drugOrder.dateActivated}" type="textbox" /></span></td>
 				<td><span id="discontinuedDate_${do.drugOrder.orderId}"><openmrs:formatDate
 					date="${do.drugOrder.dateStopped}" type="textbox" /></span></td>
 				<td><img id="edit_${do.drugOrder.orderId}" class="edit"
-					src="${pageContext.request.contextPath}/images/copy.gif"
+					src="${pageContext.request.contextPath}/images/edit.gif"
 					style="cursor: pointer;" /></td>
-				<td>${moHDrugOrder.wow}</td>		
+				<td>
+					<c:choose>
+						<c:when test="${do.isActive ne null && do.isActive eq true}">
+							<img id="stop_${do.drugOrder.orderId}" class="stop"
+								src="${pageContext.request.contextPath}/images/stop.gif"
+								style="cursor: pointer;" />
+						</c:when>
+						<c:otherwise>
+							<img id="start_${do.drugOrder.orderId}" class="start"
+								src="${pageContext.request.contextPath}/images/play.gif"
+								style="cursor: pointer;" />
+						</c:otherwise>
+					</c:choose>
+				</td>
+				<td><img id="delete_${do.drugOrder.orderId}" class="delete"
+					src="${pageContext.request.contextPath}/images/delete.gif"
+					style="cursor: pointer;" /></td>		
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -110,7 +127,7 @@
 		<td>
 			<select name="units" id="dunits">
 				<c:forEach items="${doseUnits}" var="dose">
-					<option value="${dose.uuid}">${dose.names}</option>
+					<option value="${dose.concept.uuid}">${dose.name}</option>
 				</c:forEach>
 			</select>
 		</td>
@@ -137,7 +154,7 @@
 		<td>
 			<select name="quantityUnits" id="dquantityunits">
 				<c:forEach items="${quantityUnits}" var="dQtyU">
-					<option value="${dQtyU.uuid}">${dQtyU.names}</option>
+					<option value="${dQtyU.concept.uuid}">${dQtyU.name}</option>
 				</c:forEach>
 			</select>
 		</td>
@@ -161,7 +178,7 @@
 		<td>
 			<select name="drugRoute" id="dRoute">
 				<c:forEach items="${drugRoutes}" var="dRoute">
-					<option value="${dRoute.uuid}">${dRoute.names}</option>
+					<option value="${dRoute.concept.uuid}">${dRoute.name}</option>
 				</c:forEach>
 			</select>
 		</td>
@@ -297,6 +314,16 @@ $dm(document).ready( function() {
 	});
 	$dm('#create').click( function() {
 		$dm("#editingcreating").attr("value", "create");
+		$dm("#stop").attr("value", "");
+	});
+	$dm('.start').click( function() {
+		var id = this.id.replace("start_", "");
+		$dm("#editingcreating").attr("value", "start");
+		$dm("#stop").attr("value", "");
+	});
+	$dm('.delete').click( function() {
+		var id = this.id.replace("delete_", "");
+		$dm("#editingcreating").attr("value", "delete");
 		$dm("#stop").attr("value", "");
 	});
 	$dm('#relEnc').click(function() {

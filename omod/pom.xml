@@ -16,7 +16,6 @@
 			<artifactId>dataentry-api</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>
@@ -26,6 +25,12 @@
 			<groupId>org.openmrs.web</groupId>
 			<artifactId>openmrs-web</artifactId>
 			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>mohorderentrybridge-api</artifactId>
+			<scope>provided</scope>
+			<version>${mohorderentrybridgeVersion}</version>
 		</dependency>
 	</dependencies>
 

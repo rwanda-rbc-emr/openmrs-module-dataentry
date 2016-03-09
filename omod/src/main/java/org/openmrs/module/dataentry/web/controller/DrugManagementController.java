@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +24,6 @@ import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Order;
-import org.openmrs.Order.Action;
 import org.openmrs.OrderFrequency;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
@@ -37,8 +35,10 @@ import org.openmrs.api.OrderService;
 import org.openmrs.api.ValidationException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.dataentry.Constants;
-import org.openmrs.module.dataentry.MoHDrugOrder;
 import org.openmrs.module.dataentry.utils.Utils;
+import org.openmrs.module.mohorderentrybridge.MoHConcept;
+import org.openmrs.module.mohorderentrybridge.MoHDrugOrder;
+import org.openmrs.module.mohorderentrybridge.api.MoHOrderEntryBridgeService;
 import org.openmrs.web.WebConstants;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,9 +55,7 @@ public class DrugManagementController extends ParameterizableViewController {
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		HttpSession httpSession = request.getSession();
-
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		ModelAndView mav = new ModelAndView();
 		EncounterService encounterService = Context.getEncounterService();
@@ -115,7 +113,7 @@ public class DrugManagementController extends ParameterizableViewController {
 					for(CareSetting cs : Context.getOrderService().getCareSettings(false)) {
 						if(cs.getCareSettingType().equals(CareSetting.CareSettingType.OUTPATIENT)) {
 							setting = cs;
-							drugOrder.setNumRefills(getDrugOrdersByPatient(patient).size());
+							drugOrder.setNumRefills(Context.getService(MoHOrderEntryBridgeService.class).getDrugOrdersByPatient(patient).size());
 							break;
 						}
 					}
@@ -149,15 +147,16 @@ public class DrugManagementController extends ParameterizableViewController {
 		if (request.getParameter("editcreate") != null
 				&& !request.getParameter("editcreate").equals("")
 				&& patient != null) {
+
+			DrugOrder drugOrder = (DrugOrder) orderService.getOrder(Integer.valueOf(request.getParameter("orderId")));
+			Drug drug = conceptService.getDrug(Integer.valueOf(request
+					.getParameter("drugs")));
+			Date startDate = new Date();
 			if (request.getParameter("editcreate").equals("edit")) {
 				try {
-					DrugOrder drugOrder = (DrugOrder) orderService.getOrder(Integer.valueOf(request.getParameter("orderId")));
-					Drug drug = conceptService.getDrug(Integer.valueOf(request
-							.getParameter("drugs")));
-					Date startDate = new Date();
 					Date stopDate = null;
 					
-					drugOrder = drugOrder.cloneForRevision();
+					DrugOrder drugOrder1 = drugOrder.cloneForRevision();
 					if (request.getParameter("startdate") != null
 							&& !request.getParameter("startdate").equals("")) {
 						String strDate1 = request.getParameter("startdate");
@@ -166,41 +165,40 @@ public class DrugManagementController extends ParameterizableViewController {
 						stopDate = sdf.parse(strDate1);
 					}
 
-					drugOrder.setConcept(drug.getConcept());
-					drugOrder.setDosingInstructions(request.getParameter("instructions"));
-					drugOrder.setDateCreated(new Date());
-					drugOrder.setPatient(patient);
-					drugOrder.setDrug(drug);
+					drugOrder1.setConcept(drug.getConcept());
+					drugOrder1.setDosingInstructions(request.getParameter("instructions"));
+					drugOrder1.setDateCreated(new Date());
+					drugOrder1.setPatient(patient);
+					drugOrder1.setDrug(drug);
 
 					if (request.getParameter("dose") != null
 							&& !request.getParameter("dose").equals(""))
-						drugOrder.setDose(Double.valueOf(request
+						drugOrder1.setDose(Double.valueOf(request
 								.getParameter("dose")));
 
 					String freqUuid = request.getParameter("frequency");
 					OrderFrequency freq = orderService.getOrderFrequencyByUuid(freqUuid);
 					
-					drugOrder.setFrequency(freq);
-					drugOrder.setDoseUnits(Context.getConceptService().getConceptByUuid(request.getParameter("units")));
+					drugOrder1.setFrequency(freq);
+					drugOrder1.setDoseUnits(Context.getConceptService().getConceptByUuid(request.getParameter("units")));
 
 					if (request.getParameter("quantity") != null
 							&& !request.getParameter("quantity").equals(""))
-						drugOrder.setQuantity(Double.valueOf(request.getParameter("quantity")));
-					drugOrder.setVoided(false);
-					drugOrder.setAction(Action.REVISE);
-					Action act = drugOrder.getAction();
-					drugOrder.setDateVoided(null);
-					drugOrder.setDateChanged(new Date());
-					drugOrder.setDateActivated(startDate);
-					drugOrder.setAutoExpireDate(null);
+						drugOrder1.setQuantity(Double.valueOf(request.getParameter("quantity")));
+					drugOrder1.setDateChanged(new Date());
+					drugOrder1.setDateActivated(startDate);
 					
-					Encounter enc = setDrugOrderEncounterAndOrdererAndSaveOrder(request, orderService, patient, drugOrder,
+					Encounter enc = setDrugOrderEncounterAndOrdererAndSaveOrder(request, orderService, patient, drugOrder1,
 							startDate);
 					mav.addObject("msg", "An order has been updated successfully!");
 					mav.addObject("encounter", enc);
 				} catch (APIException e) {
 					mav.addObject("msg", e.getMessage());
 				}
+			} else if (request.getParameter("editcreate").equals("start")) {
+				
+			} else if (request.getParameter("editcreate").equals("delete")) {
+				orderService.purgeOrder(drugOrder);
 			}
 		}
 
@@ -215,6 +213,7 @@ public class DrugManagementController extends ParameterizableViewController {
 							.valueOf(request.getParameter("reasons")));
 					Date date = sdf.parse(request.getParameter("stopDate"));
 					Collection<Provider> activPproviders = Context.getProviderService().getProvidersByPerson(Context.getAuthenticatedUser().getPerson());
+					
 					order.setAutoExpireDate(date);
 					order.setDateVoided(date);
 					order.setDateActivated(null);
@@ -238,12 +237,12 @@ public class DrugManagementController extends ParameterizableViewController {
 
 		List<MoHDrugOrder> drugOrders = new ArrayList<MoHDrugOrder>();
 		List<OrderFrequency> orderFrequencies = Context.getOrderService().getOrderFrequencies(false);//exclude retired
-		List<Concept> doseUnits = Context.getOrderService().getDrugDosingUnits();
-		List<Concept> quantityUnits = Context.getOrderService().getDrugDispensingUnits();
-		List<Concept> drugRoutes = Context.getOrderService().getDrugRoutes();
+		List<MoHConcept> doseUnits = Context.getService(MoHOrderEntryBridgeService.class).convertConceptsListToMoHConceptsList(Context.getOrderService().getDrugDosingUnits());
+		List<MoHConcept> quantityUnits = Context.getService(MoHOrderEntryBridgeService.class).convertConceptsListToMoHConceptsList(Context.getOrderService().getDrugDispensingUnits());
+		List<MoHConcept> drugRoutes = Context.getService(MoHOrderEntryBridgeService.class).convertConceptsListToMoHConceptsList(Context.getOrderService().getDrugRoutes());
 		
 		if (patient != null) {
-			drugOrders = getDrugOrdersByPatient(patient);
+			drugOrders = Context.getService(MoHOrderEntryBridgeService.class).getMoHDrugOrdersByPatient(patient);
 			mav.addObject("patient", patient);
 		}
 		mav.addObject("drugOrders", drugOrders);
@@ -256,7 +255,6 @@ public class DrugManagementController extends ParameterizableViewController {
 		mav.addObject("quantityUnits", quantityUnits);
 		mav.addObject("encounter", encounter);
 		mav.addObject("drugRoutes", drugRoutes);
-		mav.addObject("moHDrugOrder", new MoHDrugOrder(new DrugOrder()));
 		mav.setViewName(getViewName());
 
 		return mav;
@@ -280,21 +278,5 @@ public class DrugManagementController extends ParameterizableViewController {
 			break;
 		}
 		return enc;
-	}
-	
-	private List<MoHDrugOrder> getDrugOrdersByPatient(Patient patient) {
-		List<Order> orderList = Context.getOrderService().getAllOrdersByPatient(patient);
-		List<MoHDrugOrder> drugOrders = new ArrayList<MoHDrugOrder>();
-
-		List<Patient> patients = new Vector<Patient>();
-		patients.add(patient);
-		for(Order order: orderList) {
-			if("org.openmrs.DrugOrder".equals(order.getOrderType().getJavaClassName()) && order instanceof DrugOrder) {
-				MoHDrugOrder mohDOrder = new MoHDrugOrder((DrugOrder) order);
-				
-				drugOrders.add(mohDOrder);
-			}
-		}
-		return drugOrders;
 	}
 }

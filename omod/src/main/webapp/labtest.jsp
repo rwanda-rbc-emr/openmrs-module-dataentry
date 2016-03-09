@@ -7,7 +7,6 @@
 
 <openmrs:htmlInclude file="/moduleResources/dataentry/dataentrystyle.css" />
 <openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/jquery.js"/>
 <script type="text/javascript">
 
 // lab test arrays
