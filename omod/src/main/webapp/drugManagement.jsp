@@ -17,9 +17,10 @@
 <openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
 <openmrs:htmlInclude file="/scripts/dojo/dojo.js" />
 
-<link href="<%= request.getContextPath() %>/openmrs.css" type="text/css" rel="stylesheet" />
-
-<a href="${pageContext.request.contextPath}/patientDashboard.form?patientId=${patient.patientId}" style="text-decoration: none;"><openmrs:portlet url="patientHeader" id="patientDashboardHeader" patientId="${patient.patientId}" /></a>
+<a
+	href="${pageContext.request.contextPath}/patientDashboard.form?patientId=${patient.patientId}"
+	style="text-decoration: none;"><openmrs:portlet url="patientHeader"
+	id="patientDashboardHeader" patientId="${patient.patientId}" /></a>
 
 <div id="dt_example">
 <div id="container">
@@ -37,9 +38,8 @@
 			<th><spring:message code="dataentry.route" /></th>
 			<th><spring:message code="dataentry.startDate" /></th>
 			<th><spring:message code="dataentry.stopDate" /></th>
-			<th><spring:message code="dataentry.edit" /></th>
-			<th><spring:message code="dataentry.stopOrStart" /></th>
-			<th><spring:message code="general.delete" /></th>
+			<th><spring:message code="dataentry.reviseOrClone" /></th>
+			<th><spring:message code="dataentry.stop" /></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -59,12 +59,21 @@
 				<td><span id="quantityUnits_${do.drugOrder.orderId}"select-id="${do.drugOrder.quantityUnits.uuid}">${do.quantityUnitsName}</span></td>
 				<td><span id="route_${do.drugOrder.orderId}"select-id="${do.drugOrder.route.uuid}">${do.routeName}</span></td>
 				<td><span id="startDate_${do.drugOrder.orderId}"><openmrs:formatDate
-					date="${do.drugOrder.dateActivated}" type="textbox" /></span></td>
+					date="${do.startDate}" type="textbox" /></span></td>
 				<td><span id="discontinuedDate_${do.drugOrder.orderId}"><openmrs:formatDate
-					date="${do.drugOrder.dateStopped}" type="textbox" /></span></td>
-				<td><img id="edit_${do.drugOrder.orderId}" class="edit"
-					src="${pageContext.request.contextPath}/images/edit.gif"
-					style="cursor: pointer;" /></td>
+					date="${do.stopDate}" type="textbox" /></span></td>
+				<td>
+					<c:choose>
+						<c:when test="${do.isActive ne null && do.isActive eq true}">
+							<img id="edit_${do.drugOrder.orderId}" class="edit"
+								src="${pageContext.request.contextPath}/images/edit.gif"
+								style="cursor: pointer;" />
+							</c:when>
+						<c:otherwise>
+							<!-- TODO do what? -->
+						</c:otherwise>
+					</c:choose>	
+				</td>
 				<td>
 					<c:choose>
 						<c:when test="${do.isActive ne null && do.isActive eq true}">
@@ -73,15 +82,10 @@
 								style="cursor: pointer;" />
 						</c:when>
 						<c:otherwise>
-							<img id="start_${do.drugOrder.orderId}" class="start"
-								src="${pageContext.request.contextPath}/images/play.gif"
-								style="cursor: pointer;" />
+							<!-- TODO do what? -->
 						</c:otherwise>
 					</c:choose>
-				</td>
-				<td><img id="delete_${do.drugOrder.orderId}" class="delete"
-					src="${pageContext.request.contextPath}/images/delete.gif"
-					style="cursor: pointer;" /></td>		
+				</td>	
 			</tr>
 		</c:forEach>
 	</tbody>

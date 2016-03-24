@@ -37,75 +37,75 @@ var locationIds = new Array();
 var g_convsetId = <c:out value="${labTestConceptId}"/>;
 var g_patientId = <c:out value="${patientId}"/>;
 
-$(document).ready(
+jQuery(document).ready(
 		function(){
-			var height = $("#outerform").height();
-			$("#outerform").height(height);
-			//$("#outerform").css("z-index",2);
+			var height = jQuery("#outerform").height();
+			jQuery("#outerform").height(height);
+			//jQuery("#outerform").css("z-index",2);
 			// the labtest selection element
-			var selectElement = $(document.createElement("select")).attr("name","labTestConceptId").attr("id","labtestconceptid");
+			var selectElement = jQuery(document.createElement("select")).attr("name","labTestConceptId").attr("id","labtestconceptid");
 
-			var providerSelect = $(document.createElement("select")).attr("name","provider").attr("id","providerid");
-			var locationSelect = $(document.createElement("select")).attr("name","location").attr("id","locationid");
+			var providerSelect = jQuery(document.createElement("select")).attr("name","provider").attr("id","providerid");
+			var locationSelect = jQuery(document.createElement("select")).attr("name","location").attr("id","locationid");
 			
 			// populate the selection list
 			for( var j=0; j < labTestOptions.length; j++){
-				selectElement.append($(document.createElement("option")).attr("value",labTestIds[j]).text(labTestOptions[j]));
+				selectElement.append(jQuery(document.createElement("option")).attr("value",labTestIds[j]).text(labTestOptions[j]));
 			}
 
 			// populate providers
-			providerSelect.append($(document.createElement("option")).attr("value",-1).text("--"));
+			providerSelect.append(jQuery(document.createElement("option")).attr("value",-1).text("--"));
 			for( var j=0; j < providerOptions.length; j++){
-				providerSelect.append($(document.createElement("option")).attr("value",providerIds[j]).text(providerOptions[j]));
+				providerSelect.append(jQuery(document.createElement("option")).attr("value",providerIds[j]).text(providerOptions[j]));
 			}
 
 			// populate locations
-			locationSelect.append($(document.createElement("option")).attr("value",-1).text("--"));
+			locationSelect.append(jQuery(document.createElement("option")).attr("value",-1).text("--"));
 			for( var j=0; j < locationOptions.length; j++){
-				locationSelect.append($(document.createElement("option")).attr("value",locationIds[j]).text(locationOptions[j]));
+				locationSelect.append(jQuery(document.createElement("option")).attr("value",locationIds[j]).text(locationOptions[j]));
 			}
 
 			
 			// insert it into the typeofexamid td tag
-			$("#typeofexamid").append(selectElement);
+			jQuery("#typeofexamid").append(selectElement);
 
-			$("#provider").append(providerSelect);
+			jQuery("#provider").append(providerSelect);
 
-			$("#location").append(locationSelect);
+			jQuery("#location").append(locationSelect);
 			
 			
 			// set a handler to activate the date chooser
-			$("#encDateId").focus(
+			jQuery("#encDateId").focus(
 				function(){
 					showCalendar(this);
 				}
 			);
-			$("#addtestid").click(
+			jQuery("#addtestid").click(
 				function(){
-					$("#labtestformid").show(200,
+					jQuery("#labtestformid").show(200,
 						function(){
-							$("#addtestid").hide(200);
+							jQuery("#addtestid").hide(200);
 						});		
 				}
 			);
 
-			$("#savelabtestbuttonid").click(
+			jQuery("#savelabtestbuttonid").click(
 					function(){
-						var date = $("#encDateId").val();
-						var result = $("#resultid").val();
+						var date = jQuery("#encDateId").val();
+						var result = jQuery("#resultid").val();
 						var patientId = g_patientId;
 						var convsetId = g_convsetId;
-						var providerId =  $("#providerid").val();
-						var locationId =  $("#locationid").val();
+						var providerId =  jQuery("#providerid").val();
+						var locationId =  jQuery("#locationid").val();
 						var encounterType = "${encounterType}";
-						var labTestConceptId = $("#labtestconceptid").val();
+						var labTestConceptId = jQuery("#labtestconceptid").val();
 						saveLaboratoryTest(null,patientId,convsetId,null,date,locationId,labTestConceptId, result, providerId, encounterType);
 						
-						$('#resultid').val("");
-						$('#encDateId').val("");
-						$('#providerid').find('option:first').attr('selected', 'selected').parent('select');
-						$('#locationid').find('option:first').attr('selected', 'selected').parent('select');
-						$('#labtestconceptid').find('option:first').attr('selected', 'selected').parent('select');
+						jQuery('#resultid').val("");
+						jQuery('#encDateId').val("");
+						jQuery('#providerid').find('option:first').attr('selected', 'selected').parent('select');
+						jQuery('#locationid').find('option:first').attr('selected', 'selected').parent('select');
+						jQuery('#labtestconceptid').find('option:first').attr('selected', 'selected').parent('select');
 			});
 	});
 
@@ -121,17 +121,16 @@ function saveLaboratoryTest(url, patId, convId, provId, date, locId, conId, resu
 		providerId: provId,
 		encounterType : encounterType
 	}, function(data) {
-		var date = $("date", data).text();
-		var test = $("test", data).text();
-		var result = $("result", data).text();
+		var date = jQuery("date", data).text();
+		var test = jQuery("test", data).text();
+		var result = jQuery("result", data).text();
 
-		var dateRow = $(document.createElement("tr")).append($(document.createElement("td")).text(date))
-							.append($(document.createElement("td")).text(test))
-								.append($(document.createElement("td")).text(result));
-		$("#resulttableid").append(dateRow);
+		var dateRow = jQuery(document.createElement("tr")).append(jQuery(document.createElement("td")).text(date))
+							.append(jQuery(document.createElement("td")).text(test))
+								.append(jQuery(document.createElement("td")).text(result));
+		jQuery("#resulttableid").append(dateRow);
 	}, 'xml');
 }
-
 
 // lets make the server do the work for us and produce test count count count count in xml
 </script>
@@ -139,6 +138,7 @@ function saveLaboratoryTest(url, patId, convId, provId, date, locId, conId, resu
 	href="${pageContext.request.contextPath}/patientDashboard.form?patientId=${patient.patientId}"
 	style="text-decoration: none;"><openmrs:portlet url="patientHeader"
 	id="patientDashboardHeader" patientId="${patient.patientId}" /></a>
+
 <div class="boxHeader"><h2><spring:message code="Laboratory Examination" /></h2></div>
 
 <div class="box">

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.exception.ConstraintViolationException;
@@ -76,7 +77,6 @@ public class DrugManagementController extends ParameterizableViewController {
 			if (request.getParameter("editcreate").equals("create")) {
 				try {
 					DrugOrder drugOrder = new DrugOrder();
-					Order order = new Order();
 					Drug drug = conceptService.getDrug(Integer.valueOf(request
 							.getParameter("drugs")));
 					String startDateStr = ServletRequestUtils.getStringParameter(
@@ -109,20 +109,15 @@ public class DrugManagementController extends ParameterizableViewController {
 								.getParameter("quantity")));
 						drugOrder.setQuantityUnits(Context.getConceptService().getConceptByUuid(request.getParameter("quantityUnits")));
 					}
-					CareSetting setting = null;
-					for(CareSetting cs : Context.getOrderService().getCareSettings(false)) {
-						if(cs.getCareSettingType().equals(CareSetting.CareSettingType.OUTPATIENT)) {
-							setting = cs;
-							drugOrder.setNumRefills(Context.getService(MoHOrderEntryBridgeService.class).getDrugOrdersByPatient(patient).size());
-							break;
-						}
-					}
-					drugOrder.setCareSetting(setting);
+					drugOrder.setNumRefills(Context.getService(MoHOrderEntryBridgeService.class).getDrugOrdersByPatient(patient).size());
+					
+					drugOrder.setCareSetting(Context.getOrderService().getCareSettingByName("Inpatient"));//TODO how can i do this better instead of hard coding it to inpatient
 					drugOrder.setRoute(Context.getConceptService().getConceptByUuid(request.getParameter("drugRoute")));
 					if (!startDateStr.equals("") && startDateStr != null) {
 						Date startDate = sdf.parse(startDateStr);
 						Date stopDate = sdf.parse(stopDateStr);
 						drugOrder.setDateActivated(startDate);
+						drugOrder.setAutoExpireDate(stopDate);
 						Encounter enc = setDrugOrderEncounterAndOrdererAndSaveOrder(request, orderService, patient, drugOrder,
 								startDate);
 						mav.addObject("msg",
@@ -147,12 +142,12 @@ public class DrugManagementController extends ParameterizableViewController {
 		if (request.getParameter("editcreate") != null
 				&& !request.getParameter("editcreate").equals("")
 				&& patient != null) {
-
-			DrugOrder drugOrder = (DrugOrder) orderService.getOrder(Integer.valueOf(request.getParameter("orderId")));
+			String odaId = request.getParameter("orderId");
+			DrugOrder drugOrder = StringUtils.isBlank(odaId) ? null : (DrugOrder) orderService.getOrder(Integer.valueOf(odaId));
 			Drug drug = conceptService.getDrug(Integer.valueOf(request
 					.getParameter("drugs")));
 			Date startDate = new Date();
-			if (request.getParameter("editcreate").equals("edit")) {
+			if (request.getParameter("editcreate").equals("edit") && drugOrder != null) {
 				try {
 					Date stopDate = null;
 					
@@ -187,6 +182,7 @@ public class DrugManagementController extends ParameterizableViewController {
 						drugOrder1.setQuantity(Double.valueOf(request.getParameter("quantity")));
 					drugOrder1.setDateChanged(new Date());
 					drugOrder1.setDateActivated(startDate);
+					drugOrder1.setAutoExpireDate(stopDate);
 					
 					Encounter enc = setDrugOrderEncounterAndOrdererAndSaveOrder(request, orderService, patient, drugOrder1,
 							startDate);
@@ -212,15 +208,7 @@ public class DrugManagementController extends ParameterizableViewController {
 					Concept concept = conceptService.getConcept(Integer
 							.valueOf(request.getParameter("reasons")));
 					Date date = sdf.parse(request.getParameter("stopDate"));
-					Collection<Provider> activPproviders = Context.getProviderService().getProvidersByPerson(Context.getAuthenticatedUser().getPerson());
-					
-					order.setAutoExpireDate(date);
-					order.setDateVoided(date);
-					order.setDateActivated(null);
-					order.setVoided(true);
-					for (Provider prov : activPproviders) {
-						Context.getOrderService().discontinueOrder(order, concept, date, prov, order.getEncounter());
-					}
+					Context.getOrderService().discontinueOrder(order, concept, date, Context.getService(MoHOrderEntryBridgeService.class).getFirstCurrentProvider(), order.getEncounter());
 					
 					orderService.saveOrder(order, null);
 					mav.addObject("msg", "An order has been stopped successfully!");
@@ -269,14 +257,9 @@ public class DrugManagementController extends ParameterizableViewController {
 			Context.getEncounterService().saveEncounter(enc);
 		}
 		drugOrder.setEncounter(enc);
-
-		Collection<Provider> activPproviders = Context.getProviderService().getProvidersByPerson(Context.getAuthenticatedUser().getPerson());
+		drugOrder.setOrderer(Context.getService(MoHOrderEntryBridgeService.class).getFirstCurrentProvider());
+		orderService.saveOrder(drugOrder, null);
 		
-		for (Provider prov : activPproviders) {
-			drugOrder.setOrderer(prov);
-			orderService.saveOrder(drugOrder, null);
-			break;
-		}
 		return enc;
 	}
 }
