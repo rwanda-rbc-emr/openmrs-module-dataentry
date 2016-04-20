@@ -48,7 +48,7 @@
 				<td>
 					<input type="hidden" id="instructions_${do.drugOrder.orderId}" value="${do.drugOrder.instructions}" /> 
 					<span id="drugId_${do.drugOrder.orderId}">
-						${not empty do.drugOrder.drug.drugId ? do.drugOrder.drug.drugId : '<img id="stop_${do.drugOrder.orderId}" class="stop" src="images/alert.gif"	style="cursor: pointer;" title="Needs to be updated" />'}
+						<img alt="${do.drugOrder.orderId}" title="" />
 					</span>
 				</td>
 				<td><span id="name_${do.drugOrder.orderId}">${not empty do.drugOrder.drug ? do.drugOrder.drug.name : do.drugOrder.concept.name.name}</span></td>
@@ -142,7 +142,7 @@
 		<td>
 			<select name="frequency" id="dfrequency">
 				<c:forEach items="${orderFrequencies}" var="dFreq">
-					<option value="${dFreq.uuid}">${dFreq.frequencyPerDay}</option>
+					<option value="${dFreq.orderFrequency.uuid}">${dFreq.name}</option>
 				</c:forEach>
 			</select>
 		</td>

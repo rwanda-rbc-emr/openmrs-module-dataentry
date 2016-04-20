@@ -6,7 +6,6 @@ package org.openmrs.module.dataentry.web.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.exception.ConstraintViolationException;
-import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.Drug;
 import org.openmrs.DrugOrder;
@@ -28,7 +26,6 @@ import org.openmrs.Order;
 import org.openmrs.OrderFrequency;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
-import org.openmrs.Provider;
 import org.openmrs.api.APIException;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
@@ -39,6 +36,7 @@ import org.openmrs.module.dataentry.Constants;
 import org.openmrs.module.dataentry.utils.Utils;
 import org.openmrs.module.mohorderentrybridge.MoHConcept;
 import org.openmrs.module.mohorderentrybridge.MoHDrugOrder;
+import org.openmrs.module.mohorderentrybridge.MoHOrderFrequency;
 import org.openmrs.module.mohorderentrybridge.api.MoHOrderEntryBridgeService;
 import org.openmrs.web.WebConstants;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -224,7 +222,7 @@ public class DrugManagementController extends ParameterizableViewController {
 		}
 
 		List<MoHDrugOrder> drugOrders = new ArrayList<MoHDrugOrder>();
-		List<OrderFrequency> orderFrequencies = Context.getOrderService().getOrderFrequencies(false);//exclude retired
+		List<MoHOrderFrequency> orderFrequencies = Context.getService(MoHOrderEntryBridgeService.class).getMoHOrderFrequencies(false);//exclude retired
 		List<MoHConcept> doseUnits = Context.getService(MoHOrderEntryBridgeService.class).convertConceptsListToMoHConceptsList(Context.getOrderService().getDrugDosingUnits());
 		List<MoHConcept> quantityUnits = Context.getService(MoHOrderEntryBridgeService.class).convertConceptsListToMoHConceptsList(Context.getOrderService().getDrugDispensingUnits());
 		List<MoHConcept> drugRoutes = Context.getService(MoHOrderEntryBridgeService.class).convertConceptsListToMoHConceptsList(Context.getOrderService().getDrugRoutes());
@@ -251,7 +249,7 @@ public class DrugManagementController extends ParameterizableViewController {
 	private Encounter setDrugOrderEncounterAndOrdererAndSaveOrder(HttpServletRequest request, OrderService orderService,
 			Patient patient, DrugOrder drugOrder, Date startDate) {
 		Encounter enc1 = Context.getEncounterService().getEncounterByUuid(request.getParameter("encounter"));
-		Encounter enc = Utils.createEncounter(startDate, Context.getAuthenticatedUser(),
+		Encounter enc = Utils.createEncounter(new Date(), Context.getAuthenticatedUser(),
 				Context.getLocationService().getDefaultLocation(), patient, enc1 == null ? Context.getEncounterService().getEncounterType(Constants.ADULT_RETURN) : enc1.getEncounterType(), new ArrayList<Obs>());
 		if(enc != null) {
 			Context.getEncounterService().saveEncounter(enc);
