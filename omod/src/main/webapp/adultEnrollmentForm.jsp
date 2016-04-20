@@ -6,7 +6,6 @@
 
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/dataentrystyle.css" />
-<openmrs:htmlInclude file="/moduleResources/dataentry/jquery.js" />
 <openmrs:htmlInclude
 	file="/moduleResources/dataentry/jquery.validate.js" />
 <openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
