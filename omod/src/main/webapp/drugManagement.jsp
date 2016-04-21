@@ -54,7 +54,7 @@
 				<td><span id="name_${do.drugOrder.orderId}">${not empty do.drugOrder.drug ? do.drugOrder.drug.name : do.drugOrder.concept.name.name}</span></td>
 				<td><span id="dose_${do.drugOrder.orderId}">${do.drugOrder.dose}</span></td>
 				<td><span id="units_${do.drugOrder.orderId}" select-id="${do.drugOrder.doseUnits.uuid}">${do.doseUnitsName}</span></td>
-				<td><span id="frequency_${do.drugOrder.orderId}" select-id="${do.drugOrder.frequency.uuid}">${do.drugOrder.frequency.frequencyPerDay}</span></td>
+				<td><span id="frequency_${do.drugOrder.orderId}" select-id="${do.drugOrder.frequency.uuid}">${do.frequency}</span></td>
 				<td><span id="quantity_${do.drugOrder.orderId}">${do.drugOrder.quantity}</span></td>
 				<td><span id="quantityUnits_${do.drugOrder.orderId}"select-id="${do.drugOrder.quantityUnits.uuid}">${do.quantityUnitsName}</span></td>
 				<td><span id="route_${do.drugOrder.orderId}"select-id="${do.drugOrder.route.uuid}">${do.routeName}</span></td>

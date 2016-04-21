@@ -123,7 +123,9 @@ public class Utils {
 			Location location, Patient patient, EncounterType encounterType,
 			List<Obs> obsList) {
 		Encounter enc = new Encounter();
-
+		
+		if(encounterDate.after(new Date()))
+			encounterDate = new Date();
 		try {
 			enc.setDateCreated(new Date());
 			enc.setEncounterDatetime(encounterDate);

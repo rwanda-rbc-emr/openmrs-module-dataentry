@@ -55,7 +55,7 @@ public class DrugManagementController extends ParameterizableViewController {
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		HttpSession httpSession = request.getSession();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		ModelAndView mav = new ModelAndView();
 		EncounterService encounterService = Context.getEncounterService();
 		ConceptService conceptService = Context.getConceptService();
@@ -114,8 +114,12 @@ public class DrugManagementController extends ParameterizableViewController {
 					if (!startDateStr.equals("") && startDateStr != null) {
 						Date startDate = sdf.parse(startDateStr);
 						Date stopDate = sdf.parse(stopDateStr);
-						drugOrder.setDateActivated(startDate);
-						drugOrder.setAutoExpireDate(stopDate);
+						if(startDate.after(new Date())) {
+							drugOrder.setUrgency(Order.Urgency.ON_SCHEDULED_DATE);
+							drugOrder.setScheduledDate(startDate);
+						} else {
+							drugOrder.setDateActivated(startDate);
+						}
 						Encounter enc = setDrugOrderEncounterAndOrdererAndSaveOrder(request, orderService, patient, drugOrder,
 								startDate);
 						mav.addObject("msg",
@@ -126,11 +130,11 @@ public class DrugManagementController extends ParameterizableViewController {
 								"You need to enter the start date!");
 					}
 				} catch (ValidationException e) {
-					mav.addObject("msg", e.getMessage());
+					request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, e.getMessage());
 				} catch (APIException e) {
-					mav.addObject("msg", e.getMessage());
+					request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, e.getMessage());
 				} catch (ConstraintViolationException e) {
-					mav.addObject("msg", e.getMessage());
+					request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, e.getMessage());
 				}
 			}
 
@@ -179,7 +183,12 @@ public class DrugManagementController extends ParameterizableViewController {
 							&& !request.getParameter("quantity").equals(""))
 						drugOrder1.setQuantity(Double.valueOf(request.getParameter("quantity")));
 					drugOrder1.setDateChanged(new Date());
-					drugOrder1.setDateActivated(startDate);
+					if(startDate.after(new Date())) {
+						drugOrder.setUrgency(Order.Urgency.ON_SCHEDULED_DATE);
+						drugOrder.setScheduledDate(startDate);
+					} else {
+						drugOrder.setDateActivated(startDate);
+					}
 					drugOrder1.setAutoExpireDate(stopDate);
 					
 					Encounter enc = setDrugOrderEncounterAndOrdererAndSaveOrder(request, orderService, patient, drugOrder1,
@@ -187,7 +196,7 @@ public class DrugManagementController extends ParameterizableViewController {
 					mav.addObject("msg", "An order has been updated successfully!");
 					mav.addObject("encounter", enc);
 				} catch (APIException e) {
-					mav.addObject("msg", e.getMessage());
+					request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, e.getMessage());
 				}
 			} else if (request.getParameter("editcreate").equals("start")) {
 				
@@ -211,11 +220,11 @@ public class DrugManagementController extends ParameterizableViewController {
 					orderService.saveOrder(order, null);
 					mav.addObject("msg", "An order has been stopped successfully!");
 				} catch (APIException e) {
-					mav.addObject("msg", e.getMessage());
+					request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, e.getMessage());
 				} catch (ParseException e) {
-					mav.addObject("msg", e.getMessage());
+					request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, e.getMessage());
 				} catch (IllegalArgumentException e) {
-					mav.addObject("msg", e.getMessage());
+					request.getSession().setAttribute(WebConstants.OPENMRS_ERROR_ATTR, e.getMessage());
 				}
 			}
 
@@ -249,7 +258,7 @@ public class DrugManagementController extends ParameterizableViewController {
 	private Encounter setDrugOrderEncounterAndOrdererAndSaveOrder(HttpServletRequest request, OrderService orderService,
 			Patient patient, DrugOrder drugOrder, Date startDate) {
 		Encounter enc1 = Context.getEncounterService().getEncounterByUuid(request.getParameter("encounter"));
-		Encounter enc = Utils.createEncounter(new Date(), Context.getAuthenticatedUser(),
+		Encounter enc = Utils.createEncounter(startDate, Context.getAuthenticatedUser(),
 				Context.getLocationService().getDefaultLocation(), patient, enc1 == null ? Context.getEncounterService().getEncounterType(Constants.ADULT_RETURN) : enc1.getEncounterType(), new ArrayList<Obs>());
 		if(enc != null) {
 			Context.getEncounterService().saveEncounter(enc);
