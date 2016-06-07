@@ -111,7 +111,7 @@ jQuery(document).ready(
 
 function saveLaboratoryTest(url, patId, convId, provId, date, locId, conId, result,provId, encounterType){
 	//********************whoah dude hard coded url wtf *********************
-	$.get("${pageContext.request.contextPath}/module/dataentry/savelabtest.form", {
+	jQuery.get("${pageContext.request.contextPath}/module/dataentry/savelabtest.form", {
 		patientId :patId,
 		convsetId :convId,
 		date :date,
@@ -152,7 +152,7 @@ function saveLaboratoryTest(url, patId, convId, provId, date, locId, conId, resu
 			</tr>
 			<tr>
 				<td><spring:message code="dataentry.dateofExam" /></td>
-				<td><input id="encDateId" name="dateOfExam" size="11" onchange="CompareDates('<openmrs:datePattern />');"/><span id="msgId"></span></td>
+				<td><input id="encDateId" name="dateOfExam" size="11"/><span id="msgId"></span></td>
 			</tr>
 			<tr>
 				<td><spring:message code="dataentry.provider" /></td>
