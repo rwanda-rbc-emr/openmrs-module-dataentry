@@ -183,13 +183,13 @@ public class DrugManagementController extends ParameterizableViewController {
 							&& !request.getParameter("quantity").equals(""))
 						drugOrder1.setQuantity(Double.valueOf(request.getParameter("quantity")));
 					drugOrder1.setDateChanged(new Date());
-					if(startDate.after(new Date())) {
+					/*if(startDate.after(new Date())) {
 						drugOrder.setUrgency(Order.Urgency.ON_SCHEDULED_DATE);
 						drugOrder.setScheduledDate(startDate);
 					} else {
 						drugOrder.setDateActivated(startDate);
 					}
-					drugOrder1.setAutoExpireDate(stopDate);
+					drugOrder1.setAutoExpireDate(stopDate);*/
 					
 					Encounter enc = setDrugOrderEncounterAndOrdererAndSaveOrder(request, orderService, patient, drugOrder1,
 							startDate);

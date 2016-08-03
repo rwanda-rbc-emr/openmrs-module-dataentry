@@ -43,9 +43,9 @@
 		<c:forEach items="${drugOrders}" var="do" varStatus="num">
 			<tr>
 				<td>
-					<input type="hidden" id="instructions_${do.drugOrder.orderId}" value="${do.drugOrder.instructions}" /> 
+					<input type="hidden" id="instructions_${do.drugOrder.orderId}" value="${do.drugOrder.dosingInstructions}" /> 
 					<span id="drugId_${do.drugOrder.orderId}">
-						<img alt="${do.drugOrder.orderId}" title="" />
+						${not empty do.drugOrder.drug ? do.drugOrder.drug.drugId : ""}
 					</span>
 				</td>
 				<td><span id="name_${do.drugOrder.orderId}">${not empty do.drugOrder.drug ? do.drugOrder.drug.name : do.drugOrder.concept.name.name}</span></td>
@@ -242,6 +242,11 @@
 <script type="text/javascript">
 var $dm = jQuery.noConflict();
 
+function toggleNonEdittableDrugElements(enableOrDisable) {
+	$dm("#dstartDate").prop('disabled', enableOrDisable);
+	$dm("#ddiscontinuedDate").prop('disabled', enableOrDisable);
+}
+
 $dm(document).ready( function() {
 	$dm('.searchBox').hide();
 	$dm(".createditdialog-close").trigger("click");
@@ -293,6 +298,8 @@ $dm(document).ready( function() {
 			$dm("#dinstructions").html(varInstructions);
 			//$dm("#dinstructions").attr("disabled", true);
 			$dm("#editingcreating").attr("value", "edit");
+			
+			toggleNonEdittableDrugElements(true);
 		});
 	
 	$dm('.stop').click( function() {
@@ -303,6 +310,7 @@ $dm(document).ready( function() {
 		var reasonsId = document.getElementById("reasonsId");
 		var varStartDate = $dm("#stopDate_" + suffix).text();
 		var varReasons = $dm("#discontinuedReason_" + suffix).text();
+		
 		$dm("#stopping").attr("value", suffix);
 		$dm("#stopDateId").attr("value", varStartDate);
 		$dm("#stop").attr("value", "stop");
@@ -316,6 +324,8 @@ $dm(document).ready( function() {
 	$dm('#create').click( function() {
 		$dm("#editingcreating").attr("value", "create");
 		$dm("#stop").attr("value", "");
+		
+		toggleNonEdittableDrugElements(false);
 	});
 	$dm('.start').click( function() {
 		var id = this.id.replace("start_", "");
