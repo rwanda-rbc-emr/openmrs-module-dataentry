@@ -242,106 +242,50 @@
 <script type="text/javascript">
 var $dm = jQuery.noConflict();
 
-function toggleNonEdittableDrugElements(enableOrDisable) {
-	$dm("#dstartDate").prop('disabled', enableOrDisable);
-	$dm("#ddiscontinuedDate").prop('disabled', enableOrDisable);
-}
+$dm(document).ready(function() {
+    $dm('.searchBox').hide();
+    $dm(".createditdialog-close").trigger("click");
+    $dm('#example').dataTable();
+    $dm('.stop').click(function() {
+        $dm("#editingcreating").attr("value", "");
+        var index = this.id;
+        var prefix = index.substring(0, index.indexOf("_"));
+        var suffix = index.substring(index.indexOf("_") + 1);
+        var reasonsId = document.getElementById("reasonsId");
+        var varStartDate = $dm("#stopDate_" + suffix).text();
+        var varReasons = $dm("#discontinuedReason_" + suffix).text();
+        $dm("#stopping").attr("value", suffix);
+        $dm("#stopDateId").attr("value", varStartDate);
+        $dm("#stop").attr("value", "stop");
+        for (var i = 0; i < reasonsId.options.length; i++) {
+            if (reasonsId.options[i].value == varReasons) {
+                reasonsId.selectedIndex = i;
+                break;
+            }
+        }
+    });
+    $dm('#create').click(function() {
+        $dm("#editingcreating").attr("value", "create");
+        $dm("#stop").attr("value", "");
 
-$dm(document).ready( function() {
-	$dm('.searchBox').hide();
-	$dm(".createditdialog-close").trigger("click");
-	$dm('#example').dataTable();
-	$dm('.edit').click( function() {
-		$dm("#editingcreating").attr("value", "edit");
-		$dm("#stop").attr("value", "stop");
-		
-		var index = this.id;
-		var prefix = index.substring(0, index.indexOf("_"));
-		var suffix = index.substring(index.indexOf("_") + 1);
-		var varDose = $dm("#dose_" + suffix).text();
-		var drugId = $dm("#drugId_" + suffix).text().replace(/\s/g, '');
-		var varUnits = $dm("#units_" + suffix).attr("select-id");
-		var varFrequency = $dm("#frequency_" + suffix).attr("select-id");
-		var varQuantity = $dm("#quantity_" + suffix).text();
-		var varQuantityUnits = $dm("#quantityUnits_" + suffix).attr("select-id");
-		var varRoute = $dm("#route_" + suffix).attr("select-id");
-		var varStartDate = $dm("#startDate_" + suffix).text();
-		var varDiscDate = $dm("#discontinuedDate_" + suffix).text();
-		var varInstructions = $dm("#instructions_" + suffix).val();
-		var varDrugId = document.getElementById("dname");//$("#dname").val();
-		var varDrugUnitId = document.getElementById("dunits");
-		
-			$dm("#editing").attr("value", suffix);
-			//$("#dname").val(drugId);
-		
-			for ( var i = 0; i < varDrugId.options.length; i++) {
-				if (varDrugId.options[i].value == drugId) {
-					varDrugId.selectedIndex = i;
-					break;
-				}
-			}
-			for ( var i = 0; i < varDrugUnitId.options.length; i++) {
-				if (varDrugUnitId.options[i].value == varUnits) {
-					varDrugUnitId.selectedIndex = i;
-					break;
-				}
-			}
-			
-			$dm("#ddose").attr("value", varDose);
-			$dm("#dunits").val(varUnits);
-			$dm("#dquantity").attr("value", varQuantity);
-			$dm("#dfrequency").val(varFrequency);
-			$dm("#dquantityunits").val(varQuantityUnits);
-			$dm("#dRoute").val(varRoute);
-			$dm("#dstartDate").val(varStartDate);
-			$dm("#ddiscontinuedDate").val(varDiscDate);
-			$dm("#dinstructions").html(varInstructions);
-			//$dm("#dinstructions").attr("disabled", true);
-			$dm("#editingcreating").attr("value", "edit");
-			
-			toggleNonEdittableDrugElements(true);
-		});
-	
-	$dm('.stop').click( function() {
-		$dm("#editingcreating").attr("value", "");
-		var index = this.id;
-		var prefix = index.substring(0, index.indexOf("_"));
-		var suffix = index.substring(index.indexOf("_") + 1);
-		var reasonsId = document.getElementById("reasonsId");
-		var varStartDate = $dm("#stopDate_" + suffix).text();
-		var varReasons = $dm("#discontinuedReason_" + suffix).text();
-		
-		$dm("#stopping").attr("value", suffix);
-		$dm("#stopDateId").attr("value", varStartDate);
-		$dm("#stop").attr("value", "stop");
-		for ( var i = 0; i < reasonsId.options.length; i++) {
-			if (reasonsId.options[i].value == varReasons) {
-				reasonsId.selectedIndex = i;
-				break;
-			}
-		}
-	});
-	$dm('#create').click( function() {
-		$dm("#editingcreating").attr("value", "create");
-		$dm("#stop").attr("value", "");
-		
-		toggleNonEdittableDrugElements(false);
-	});
-	$dm('.start').click( function() {
-		var id = this.id.replace("start_", "");
-		$dm("#editingcreating").attr("value", "start");
-		$dm("#stop").attr("value", "");
-	});
-	$dm('.delete').click( function() {
-		var id = this.id.replace("delete_", "");
-		$dm("#editingcreating").attr("value", "delete");
-		$dm("#stop").attr("value", "");
-	});
-	$dm('#relEnc').click(function() {
-		$dm('.searchBox').show();
-	});
+        $dm("#dstartDate").prop('disabled', false);
+	    $dm("#ddiscontinuedDate").prop('disabled', false);
+	    
+    });
+    $dm('.start').click(function() {
+        var id = this.id.replace("start_", "");
+        $dm("#editingcreating").attr("value", "start");
+        $dm("#stop").attr("value", "");
+    });
+    $dm('.delete').click(function() {
+        var id = this.id.replace("delete_", "");
+        $dm("#editingcreating").attr("value", "delete");
+        $dm("#stop").attr("value", "");
+    });
+    $dm('#relEnc').click(function() {
+        $dm('.searchBox').show();
+    });
 });
-
 </script>
 
 <%@ include file="/WEB-INF/template/footer.jsp"%>
