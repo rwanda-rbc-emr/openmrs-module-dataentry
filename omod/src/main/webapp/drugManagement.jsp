@@ -17,7 +17,7 @@
 <openmrs:htmlInclude file="/scripts/calendar/calendar.js" />
 <openmrs:htmlInclude file="/scripts/dojo/dojo.js" />
 
-<openmrs:portlet url="patientHeader" id="patientDashboardHeader" patientId="${patient.patientId}" />
+<a href="${pageContext.request.contextPath}/patientDashboard.form?patientId=${patient.patientId}" style="text-decoration: none;"><openmrs:portlet url="patientHeader" id="patientDashboardHeader" patientId="${patient.patientId}" /></a>
 
 <div id="dt_example">
 <div id="container">
