@@ -13,40 +13,40 @@
  */
 
 jQuery(function ($) {
-	var ddose1 = $("#ddose").val();
-	var dunits1 = $("#dunits").val();
-	var dquantity1 = $("#dquantity").val();
-	var dfrequency1 = $("#dfrequency").val();
-	var dquantityunits1 = $("#dquantityunits").val();
-	var dRoute1 = $("#dRoute").val();
-	var dstartDate1 = $("#dstartDate").val();
-	var ddiscontinuedDate1 = $("#ddiscontinuedDate").val();
-	var dinstructions1 = $("#dinstructions").html();
+	var ddose1 = jQuery("#ddose").val();
+	var dunits1 = jQuery("#dunits").val();
+	var dquantity1 = jQuery("#dquantity").val();
+	var dfrequency1 = jQuery("#dfrequency").val();
+	var dquantityunits1 = jQuery("#dquantityunits").val();
+	var dRoute1 = jQuery("#dRoute").val();
+	var dstartDate1 = jQuery("#dstartDate").val();
+	var ddiscontinuedDate1 = jQuery("#ddiscontinuedDate").val();
+	var dinstructions1 = jQuery("#dinstructions").html();
 	
-	$('.edit').click(function (e) {
-		$("#dstartDate").prop('disabled', true);
-	    $("#ddiscontinuedDate").prop('disabled', true);
-        $("#editingcreating").attr("value", "edit");
-        $("#stop").attr("value", "stop");
+	jQuery('.edit').click(function (e) {
+		//jQuery("#dstartDate").prop('disabled', true);
+	    //jQuery("#ddiscontinuedDate").prop('disabled', true);
+        jQuery("#editingcreating").attr("value", "edit");
+        jQuery("#stop").attr("value", "");
         var index = this.id;
         var prefix = index.substring(0, index.indexOf("_"));
         var suffix = index.substring(index.indexOf("_") + 1);
-        var varDose = $("#dose_" + suffix).text();
-        var drugId = $("#drugId_" + suffix).text().replace(/\s/g, '');
-        var varUnits = $("#units_" + suffix).attr("select-id");
-        var varFrequency = $("#frequency_" + suffix).attr(
+        var varDose = jQuery("#dose_" + suffix).text();
+        var drugId = jQuery("#drugId_" + suffix).text().replace(/\s/g, '');
+        var varUnits = jQuery("#units_" + suffix).attr("select-id");
+        var varFrequency = jQuery("#frequency_" + suffix).attr(
             "select-id");
-        var varQuantity = $("#quantity_" + suffix).text();
-        var varQuantityUnits = $("#quantityUnits_" + suffix).attr(
+        var varQuantity = jQuery("#quantity_" + suffix).text();
+        var varQuantityUnits = jQuery("#quantityUnits_" + suffix).attr(
             "select-id");
-        var varRoute = $("#route_" + suffix).attr("select-id");
-        var varStartDate = $("#startDate_" + suffix).text();
-        var varDiscDate = $("#discontinuedDate_" + suffix).text();
-        var varInstructions = $("#instructions_" + suffix).val();
-        var varDrugId = document.getElementById("dname"); //$("#dname").val();
+        var varRoute = jQuery("#route_" + suffix).attr("select-id");
+        var varStartDate = jQuery("#startDate_" + suffix).text();
+        var varDiscDate = jQuery("#discontinuedDate_" + suffix).text();
+        var varInstructions = jQuery("#instructions_" + suffix).val();
+        var varDrugId = document.getElementById("dname"); //jQuery("#dname").val();
         var varDrugUnitId = document.getElementById("dunits");
-        $("#editing").attr("value", suffix);
-        //$("#dname").val(drugId);
+        jQuery("#editing").attr("value", suffix);
+        //jQuery("#dname").val(drugId);
         for (var i = 0; i < varDrugId.options.length; i++) {
             if (varDrugId.options[i].value == drugId) {
                 varDrugId.selectedIndex = i;
@@ -59,51 +59,67 @@ jQuery(function ($) {
                 break;
             }
         }
-        $("#ddose").attr("value", varDose);
-        $("#dunits").val(dunits);
-        $("#dquantity").attr("value", varQuantity);
-        $("#dfrequency").val(varFrequency);
-        $("#dquantityunits").val(varQuantityUnits);
-        $("#dRoute").val(varRoute);
-        $("#dstartDate").val(varStartDate);
-        $("#ddiscontinuedDate").val(varDiscDate);
-        $("#dinstructions").html(varInstructions);
-        //$("#dinstructions").attr("disabled", true);
-        $("#editingcreating").attr("value", "edit");
-		$('#edit-dialog-content').dialog();		
+        jQuery("#ddose").attr("value", varDose);
+        jQuery("#dunits").val(dunits);
+        jQuery("#dquantity").attr("value", varQuantity);
+        jQuery("#dfrequency").val(varFrequency);
+        jQuery("#dquantityunits").val(varQuantityUnits);
+        jQuery("#dRoute").val(varRoute);
+        jQuery("#dstartDate").val(varStartDate);
+        jQuery("#ddiscontinuedDate").val(varDiscDate);
+        jQuery("#dinstructions").html(varInstructions);
+        //jQuery("#dinstructions").attr("disabled", true);
+        jQuery("#editingcreating").attr("value", "edit");
+		jQuery('#edit-dialog-content').dialog();		
 		  return false;
 	});
 	
-	$('.stop').click(function (e) {
-		$('#stop-modal-content').modal();
+	jQuery('.stop').click(function (e) {
+        jQuery("#editingcreating").attr("value", "stop");
+        var index = this.id;
+        var prefix = index.substring(0, index.indexOf("_"));
+        var suffix = index.substring(index.indexOf("_") + 1);
+        var reasonsId = document.getElementById("reasonsId");
+        var varStartDate = jQuery("#stopDate_" + suffix).text();
+        var varReasons = jQuery("#discontinuedReason_" + suffix).text();
+        jQuery("#stopping").attr("value", suffix);
+        jQuery("#stopDateId").attr("value", varStartDate);
+        jQuery("#stop").attr("value", "stop");
+        for (var i = 0; i < reasonsId.options.length; i++) {
+            if (reasonsId.options[i].value == varReasons) {
+                reasonsId.selectedIndex = i;
+                break;
+            }
+        }
+		jQuery('#stop-modal-content').modal();
 		  return false;
 	});
 	
-	$('#create').click(function(e) {
-		$("#ddose").attr("value", ddose1);
-        $("#dunits").val(dunits1);
-        $("#dquantity").attr("value", dquantity1);
-        $("#dfrequency").val(dfrequency1);
-        $("#dquantityunits").val(dquantityunits1);
-        $("#dRoute").val(dRoute1);
-        $("#dstartDate").val(dstartDate1);
-        $("#ddiscontinuedDate").val(ddiscontinuedDate1);
-        $("#dinstructions").html(dinstructions1);
-        $("#editingcreating").attr("value", "create");
-		$('#edit-dialog-content').dialog();		
+	jQuery('#create').click(function(e) {
+		jQuery("#ddose").attr("value", ddose1);
+        jQuery("#dunits").val(dunits1);
+        jQuery("#dquantity").attr("value", dquantity1);
+        jQuery("#dfrequency").val(dfrequency1);
+        jQuery("#dquantityunits").val(dquantityunits1);
+        jQuery("#dRoute").val(dRoute1);
+        jQuery("#dstartDate").val(dstartDate1);
+        jQuery("#ddiscontinuedDate").val(ddiscontinuedDate1);
+        jQuery("#dinstructions").html(dinstructions1);
+        jQuery("#editingcreating").attr("value", "create");
+		jQuery('#edit-dialog-content').dialog();		
 		  return false;
 	});
 	
-	$('.popit').click(function(e) {
-		$('#rpt-dialog-content').dialog();		
+	jQuery('.popit').click(function(e) {
+		jQuery('#rpt-dialog-content').dialog();		
 		  return false;
 	});
 	
-	$("#addingi").click(function(e) {
-		$("#stop-modal-content").dialog();
+	jQuery("#addingi").click(function(e) {
+		jQuery("#stop-modal-content").dialog();
 	});
 	
-	$("who").click(function() {
-		$("#stop-modal-content").hide();
+	jQuery("who").click(function() {
+		jQuery("#stop-modal-content").hide();
 	});
 });

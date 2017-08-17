@@ -240,51 +240,11 @@
 </div>
 
 <script type="text/javascript">
-var $dm = jQuery.noConflict();
 
-$dm(document).ready(function() {
-    $dm('.searchBox').hide();
-    $dm(".createditdialog-close").trigger("click");
-    $dm('#example').dataTable();
-    $dm('.stop').click(function() {
-        $dm("#editingcreating").attr("value", "");
-        var index = this.id;
-        var prefix = index.substring(0, index.indexOf("_"));
-        var suffix = index.substring(index.indexOf("_") + 1);
-        var reasonsId = document.getElementById("reasonsId");
-        var varStartDate = $dm("#stopDate_" + suffix).text();
-        var varReasons = $dm("#discontinuedReason_" + suffix).text();
-        $dm("#stopping").attr("value", suffix);
-        $dm("#stopDateId").attr("value", varStartDate);
-        $dm("#stop").attr("value", "stop");
-        for (var i = 0; i < reasonsId.options.length; i++) {
-            if (reasonsId.options[i].value == varReasons) {
-                reasonsId.selectedIndex = i;
-                break;
-            }
-        }
-    });
-    $dm('#create').click(function() {
-        $dm("#editingcreating").attr("value", "create");
-        $dm("#stop").attr("value", "");
-
-        $dm("#dstartDate").prop('disabled', false);
-	    $dm("#ddiscontinuedDate").prop('disabled', false);
-	    
-    });
-    $dm('.start').click(function() {
-        var id = this.id.replace("start_", "");
-        $dm("#editingcreating").attr("value", "start");
-        $dm("#stop").attr("value", "");
-    });
-    $dm('.delete').click(function() {
-        var id = this.id.replace("delete_", "");
-        $dm("#editingcreating").attr("value", "delete");
-        $dm("#stop").attr("value", "");
-    });
-    $dm('#relEnc').click(function() {
-        $dm('.searchBox').show();
-    });
+jQuery(function () {
+    jQuery('.searchBox').hide();
+    jQuery(".createditdialog-close").trigger("click");
+    jQuery('#example').dataTable();
 });
 </script>
 

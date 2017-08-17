@@ -319,7 +319,7 @@ var symIdArray = new Array();
 	</tr>
 </table>
 </fieldset>
-<!-- 
+<!--
 <fieldset>
 <legend><spring:message code="Treatment" /></legend>
 <dl>
@@ -709,7 +709,7 @@ var symIdArray = new Array();
 		</td>
 	</tr>
 </table>
-<!-- 
+<!--
 <table id="whoStageId">
 
 	<tr>
@@ -722,11 +722,11 @@ var symIdArray = new Array();
 			<option value="1207">WHO STAGE 4 ADULT</option>
 		</select></td>
 		<td id="who_stages">
-		
+
 		</td>
 	</tr>
 </table>
- --> <!-- 
+ --> <!--
 <div id="whoStages"></div>
 <p id="addWS" class="greenbox"></p>
  --></fieldset>
