@@ -96,7 +96,7 @@ public class DrugManagementController extends ParameterizableViewController {
                         drugOrder.setRoute(Context.getConceptService().getConceptByUuid(request.getParameter("drugRoute")));
                         if (StringUtils.isNotBlank(startDateStr)) {
                             Date startDate = sdf.parse(startDateStr);
-                            Date stopDate = sdf.parse(stopDateStr);
+                            Date stopDate = StringUtils.isNotBlank(stopDateStr) ? sdf.parse(stopDateStr) : null;
                             setDrugOrderStartDate(drugOrder, startDate);
                             if (stopDate != null && stopDate.after(startDate))
                                 drugOrder.setAutoExpireDate(stopDate);
