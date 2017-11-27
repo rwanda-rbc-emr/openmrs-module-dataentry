@@ -143,7 +143,7 @@ var symIdArray = new Array();
 					);
 				$("#addFamSeroId").click(
 						function(){
-							createFamilyHIVSerologies("famSeroList", relArray, relIdArray, resArray, resIdArray, "dynamicFamSero", "<spring:message code="dataentry.familyName" />", "<spring:message code="dataentry.name" />", "<spring:message code="dataentry.dob" />", "<spring:message code="dataentry.dob" />", "<spring:message code="dataentry.rel" />", "<spring:message code="dataentry.hivTestRes" />", "<spring:message code="dataentry.hivTestResDate" />");
+							createFamilyHIVSerologies("famSeroList", relArray, relIdArray, resArray, resIdArray, "dynamicFamSero", "<spring:message code="dataentry.familyName" />", "<spring:message code="dataentry.name" />", "<spring:message code="dataentry.dob" />", "<spring:message code="dataentry.dod" />", "<spring:message code="dataentry.rel" />", "<spring:message code="dataentry.hivTestRes" />", "<spring:message code="dataentry.hivTestResDate" />");
 						}
 					);
 				

@@ -34,9 +34,7 @@
 	</privilege>
 	
 	<require_modules>
-		<require_module version="${mohorderentrybridgeVersion}">
-			org.openmrs.module.mohorderentrybridge
-		</require_module>
+		<require_module>org.openmrs.module.mohorderentrybridge</require_module>
 	</require_modules>
 	
 	<!-- Required Global Properties -->
